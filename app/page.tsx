@@ -1,184 +1,203 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
 
-/* ══════════════════════════════════════════════════════════════════════════════
-   HOOKS
-══════════════════════════════════════════════════════════════════════════════ */
+/* ─── SCROLL REVEAL HOOK ───────────────────────────────────────────────────── */
 function useScrollReveal() {
   useEffect(() => {
-    const els = document.querySelectorAll(".reveal, .reveal-left, .reveal-right");
+    const els = document.querySelectorAll(".reveal");
     const io = new IntersectionObserver(
-      (entries) =>
-        entries.forEach((e) => {
-          if (e.isIntersecting) e.target.classList.add("revealed");
-        }),
-      { threshold: 0.1 }
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("in"); }),
+      { threshold: 0.08 }
     );
     els.forEach((el) => io.observe(el));
     return () => io.disconnect();
   }, []);
 }
 
-function useInView() {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setVisible(true);
-      },
-      { threshold: 0.1 }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
-  return { ref, visible };
-}
+/* ─── ICONS ──────────────────────────────────────────────────────────────────── */
+const Apple = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+  </svg>
+);
 
-/* ══════════════════════════════════════════════════════════════════════════════
-   REVEAL WRAPPER
-══════════════════════════════════════════════════════════════════════════════ */
-function Reveal({
-  children,
-  delay = 0,
-}: {
-  children: React.ReactNode;
-  delay?: number;
+const GooglePlay = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+    <path d="M3.609 1.814L13.792 12 3.61 22.186a2.372 2.372 0 01-.473-.399A2.52 2.52 0 012.5 20.13V3.87c0-.637.232-1.24.636-1.657.151-.156.315-.29.473-.399zm.848-.548l11.35 6.545-2.873 2.873L3.61 1.36c.282-.11.567-.137.847-.094zm11.35 13.28L4.457 21.09c-.28.043-.565.016-.847-.094l9.324-9.324 2.873 2.873zM16.96 7.11l3.545 2.045a2.503 2.503 0 010 4.33L16.96 15.53l-3.168-3.168v-.724L16.96 7.11z"/>
+  </svg>
+);
+
+const Heart = ({ className = "w-5 h-5" }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+  </svg>
+);
+
+const Star = ({ className = "w-4 h-4" }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+  </svg>
+);
+
+const Check = () => (
+  <svg viewBox="0 0 16 16" fill="none" className="w-3.5 h-3.5">
+    <path d="M3 8l3.5 3.5 6.5-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
+const Play = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+    <path d="M8 5v14l11-7z"/>
+  </svg>
+);
+
+/* ─── MOVIE CARD COMPONENT ──────────────────────────────────────────────────── */
+function MovieCard({ 
+  title, 
+  year, 
+  rating, 
+  genre, 
+  image,
+  isMatch = false,
+  rotation = 0,
+  scale = 1,
+  className = ""
+}: { 
+  title: string;
+  year: string;
+  rating: string;
+  genre: string;
+  image: string;
+  isMatch?: boolean;
+  rotation?: number;
+  scale?: number;
+  className?: string;
 }) {
-  const { ref, visible } = useInView();
   return (
-    <div
-      ref={ref}
-      style={{ transitionDelay: `${delay}s` }}
-      className={`transition-all duration-700 ease-out ${
-        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
-      }`}
+    <div 
+      className={`relative w-44 h-64 rounded-2xl overflow-hidden shadow-2xl transition-all duration-500 hover:scale-105 ${className}`}
+      style={{ transform: `rotate(${rotation}deg) scale(${scale})` }}
     >
-      {children}
+      <Image
+        src={image}
+        alt={title}
+        fill
+        className="object-cover"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+      
+      {/* Content */}
+      <div className="absolute bottom-0 left-0 right-0 p-4">
+        <span className="inline-block px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white/90 bg-white/20 backdrop-blur-sm rounded-full mb-2">
+          {genre}
+        </span>
+        <h4 className="font-serif font-bold text-white text-lg leading-tight mb-1">{title}</h4>
+        <div className="flex items-center gap-2 text-white/70 text-xs">
+          <span>{year}</span>
+          <span>•</span>
+          <span className="flex items-center gap-1">
+            <Star className="w-3 h-3 text-amber-400" />
+            {rating}
+          </span>
+        </div>
+      </div>
+
+      {/* Match Overlay */}
+      {isMatch && (
+        <div className="absolute inset-0 bg-primary/95 flex flex-col items-center justify-center animate-pulse">
+          <Heart className="w-10 h-10 text-white mb-2" />
+          <span className="font-serif font-bold text-white text-xl tracking-wide">MATCH!</span>
+        </div>
+      )}
     </div>
   );
 }
 
-/* ══════════════════════════════════════════════════════════════════════════════
-   ICONS - Apple & Google Play SVGs
-══════════════════════════════════════════════════════════════════════════════ */
-function AppleIcon({ className = "w-5 h-5" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-    </svg>
-  );
-}
-
-function GooglePlayIcon({ className = "w-5 h-5" }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M3.609 1.814L13.792 12 3.61 22.186a2.372 2.372 0 01-.473-.399A2.52 2.52 0 012.5 20.13V3.87c0-.637.232-1.24.636-1.657.151-.156.315-.29.473-.399zm.848-.548l11.35 6.545-2.873 2.873L3.61 1.36c.282-.11.567-.137.847-.094zm11.35 13.28L4.457 21.09c-.28.043-.565.016-.847-.094l9.324-9.324 2.873 2.873zM16.96 7.11l3.545 2.045a2.503 2.503 0 010 4.33L16.96 15.53l-3.168-3.168v-.724L16.96 7.11z" />
-    </svg>
-  );
-}
-
-/* ══════════════════════════════════════════════════════════════════════════════
-   NAV
-══════════════════════════════════════════════════════════════════════════════ */
+/* ─── NAV ─────────────────────────────────────────────────────────────────────── */
 function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-
+  
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", handler);
-    return () => window.removeEventListener("scroll", handler);
+    const h = () => setScrolled(window.scrollY > 32);
+    window.addEventListener("scroll", h);
+    return () => window.removeEventListener("scroll", h);
   }, []);
 
-  const links: [string, string][] = [
-    ["How It Works", "#how-it-works"],
-    ["Features", "#features"],
-    ["Pricing", "#pricing"],
-    ["FAQ", "#faq"],
-  ];
+  const links = [["How It Works", "#how-it-works"], ["Features", "#features"], ["Pricing", "#pricing"], ["FAQ", "#faq"]];
 
   return (
-    <nav
-      className={[
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        scrolled
-          ? "bg-[var(--background)]/90 backdrop-blur-xl border-b border-[var(--border)] shadow-[0_1px_12px_rgba(15,23,41,0.04)]"
-          : "bg-transparent border-b border-transparent",
-      ].join(" ")}
-    >
-      <div className="mx-auto flex max-w-[1200px] items-center justify-between px-6 lg:px-10 h-[72px]">
-        <span className="text-[22px] font-bold tracking-tight text-[var(--text-primary)] font-serif">
-          Duo<span className="text-[var(--brand)]">App</span>
-        </span>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      scrolled ? "bg-white/95 backdrop-blur-xl shadow-sm border-b border-border" : "bg-transparent"
+    }`}>
+      <div className="max-w-6xl mx-auto flex items-center justify-between px-6 h-20">
+        {/* Logo */}
+        <a href="#" className="flex items-center gap-2.5">
+          <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center">
+            <Heart className="w-4 h-4 text-white" />
+          </div>
+          <span className="font-serif font-bold text-xl text-foreground tracking-tight">
+            Duo<span className="text-primary">App</span>
+          </span>
+        </a>
 
+        {/* Desktop Links */}
         <div className="hidden md:flex items-center gap-10">
           {links.map(([label, href]) => (
-            <a
-              key={label}
-              href={href}
-              className="text-[14px] font-medium text-[var(--text-secondary)] no-underline hover:text-[var(--text-primary)] transition-colors"
+            <a 
+              key={label} 
+              href={href} 
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors relative group"
             >
               {label}
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
             </a>
           ))}
         </div>
 
-        <div className="hidden md:flex items-center gap-3">
-          <a
-            href="#download"
-            className="flex items-center gap-2 rounded-full bg-[var(--text-primary)] px-6 py-2.5 text-[13px] font-semibold
-                       text-white no-underline hover:bg-[var(--text-primary)]/90 transition-all duration-200
-                       shadow-[0_2px_12px_rgba(15,23,41,0.12)]"
+        {/* CTA */}
+        <div className="hidden md:flex items-center gap-4">
+          <a 
+            href="#download" 
+            className="flex items-center gap-2 bg-foreground text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-foreground/90 transition-all hover:scale-105 hover:shadow-lg"
           >
-            <AppleIcon className="w-4 h-4" />
-            Download
-          </a>
-          <a
-            href="#download"
-            className="flex items-center gap-2 rounded-full bg-[var(--text-primary)] px-6 py-2.5 text-[13px] font-semibold
-                       text-white no-underline hover:bg-[var(--text-primary)]/90 transition-all duration-200
-                       shadow-[0_2px_12px_rgba(15,23,41,0.12)]"
-          >
-            <GooglePlayIcon className="w-4 h-4" />
+            <Apple /> Download Free
           </a>
         </div>
 
-        {/* Mobile menu toggle */}
-        <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden flex flex-col gap-1.5 p-2 bg-transparent border-none cursor-pointer"
+        {/* Mobile Menu Button */}
+        <button 
+          onClick={() => setMobileOpen(!mobileOpen)} 
+          className="md:hidden p-2"
           aria-label="Toggle menu"
         >
-          <span className={`block w-5 h-0.5 bg-[var(--text-primary)] transition-transform duration-300 ${mobileOpen ? 'rotate-45 translate-y-2' : ''}`} />
-          <span className={`block w-5 h-0.5 bg-[var(--text-primary)] transition-opacity duration-300 ${mobileOpen ? 'opacity-0' : ''}`} />
-          <span className={`block w-5 h-0.5 bg-[var(--text-primary)] transition-transform duration-300 ${mobileOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+          <div className={`w-5 h-0.5 bg-foreground mb-1.5 transition-transform ${mobileOpen ? "rotate-45 translate-y-2" : ""}`} />
+          <div className={`w-5 h-0.5 bg-foreground mb-1.5 transition-opacity ${mobileOpen ? "opacity-0" : ""}`} />
+          <div className={`w-5 h-0.5 bg-foreground transition-transform ${mobileOpen ? "-rotate-45 -translate-y-2" : ""}`} />
         </button>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="md:hidden bg-[var(--background)] border-b border-[var(--border)] px-6 pb-6">
+        <div className="md:hidden bg-white border-b border-border px-6 py-4">
           {links.map(([label, href]) => (
-            <a
-              key={label}
-              href={href}
+            <a 
+              key={label} 
+              href={href} 
               onClick={() => setMobileOpen(false)}
-              className="block py-3 text-[15px] font-medium text-[var(--text-secondary)] no-underline hover:text-[var(--text-primary)]"
+              className="block py-3 text-muted-foreground font-medium border-b border-border last:border-0"
             >
               {label}
             </a>
           ))}
-          <a
-            href="#download"
+          <a 
+            href="#download" 
             onClick={() => setMobileOpen(false)}
-            className="mt-2 flex items-center justify-center gap-2 rounded-full bg-[var(--text-primary)] px-6 py-3 text-sm font-semibold
-                       text-white no-underline"
+            className="flex items-center justify-center gap-2 mt-4 bg-foreground text-white px-5 py-3 rounded-full text-sm font-semibold"
           >
-            Download Free
+            <Apple /> Download Free
           </a>
         </div>
       )}
@@ -186,305 +205,248 @@ function Nav() {
   );
 }
 
-/* ══════════════════════════════════════════════════════════════════════════════
-   PHONE MOCKUP
-══════════════════════════════════════════════════════════════════════════════ */
-function PhoneMockup() {
+/* ─── HERO ──────────────────────────────────────────────────────────────────── */
+function Hero() {
   return (
-    <div className="relative inline-block">
-      {/* Floating chips */}
-      <div
-        className="float-a absolute top-6 -right-32 lg:-right-40 z-10 flex items-center gap-2.5 whitespace-nowrap
-                    bg-white border border-[var(--border)] rounded-2xl px-5 py-3
-                    text-[13px] font-semibold text-[var(--text-primary)] shadow-[0_16px_48px_rgba(15,23,41,0.1)]"
-      >
-        <span className="flex items-center justify-center w-8 h-8 rounded-full bg-[var(--brand-light)]">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--brand)"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-        </span>
-        {"It's a Match!"}
-      </div>
-      <div
-        className="float-b absolute bottom-36 -right-32 lg:-right-40 z-10 flex items-center gap-2.5 whitespace-nowrap
-                    bg-white border border-[var(--border)] rounded-2xl px-5 py-3
-                    text-[13px] font-semibold text-[var(--text-primary)] shadow-[0_16px_48px_rgba(15,23,41,0.1)]"
-      >
-        <span className="flex items-center justify-center w-8 h-8 rounded-full bg-amber-50 text-amber-500">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        </span>
-        847 matched
-      </div>
-      <div
-        className="float-c absolute bottom-[70px] -left-32 lg:-left-40 z-10 flex items-center gap-2.5 whitespace-nowrap
-                    bg-white border border-[var(--border)] rounded-2xl px-5 py-3
-                    text-[13px] font-semibold text-[var(--text-primary)] shadow-[0_16px_48px_rgba(15,23,41,0.1)]"
-      >
-        <span className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-50 text-blue-500">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-        </span>
-        2.1M Couples
-      </div>
+    <section className="relative min-h-screen flex flex-col lg:flex-row items-center justify-center overflow-hidden pt-28 pb-20 px-6 bg-gradient-to-b from-white to-muted/30">
+      {/* Left Content */}
+      <div className="flex-1 max-w-xl lg:max-w-lg text-center lg:text-left z-10">
+        {/* Badge */}
+        <div className="reveal inline-flex items-center gap-2.5 mb-8 bg-white border border-border rounded-full px-4 py-2 shadow-sm">
+          <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+          <span className="text-sm text-muted-foreground font-medium">
+            Now live on iOS & Android
+          </span>
+          <span className="bg-primary/10 text-primary text-xs font-bold px-2 py-0.5 rounded-full">
+            FREE
+          </span>
+        </div>
 
-      {/* Shell */}
-      <div
-        className="relative w-[260px] h-[540px] overflow-hidden rounded-[44px]
-                   border-2 border-white/20 bg-gradient-to-br from-[#1e2133] to-[#151826]"
-        style={{
-          boxShadow:
-            "0 48px 120px rgba(15,23,41,.25), 0 0 0 1px rgba(255,255,255,.06), inset 0 1px 0 rgba(255,255,255,.12)",
-        }}
-      >
-        <div className="absolute inset-0 flex flex-col p-5 bg-gradient-to-br from-[#0f1220] to-[#1a0c10]">
-          {/* Notch */}
-          <div className="w-20 h-[22px] rounded-b-2xl bg-[#0f1220] mx-auto mb-3.5 shrink-0" />
-          {/* App header */}
-          <div className="flex items-center justify-between mb-3.5">
-            <span className="text-base font-bold text-[#f5f5f7] font-serif">
-              Date<span className="text-[var(--brand)]">Flix</span>
-            </span>
-            <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[var(--brand)] to-[#ff8c00]" />
-          </div>
-          {/* Movie card */}
-          <div
-            className="relative shrink-0 h-[200px] mb-3 overflow-hidden rounded-[20px]
-                        border border-white/[.08] bg-gradient-to-br from-[#1e1020] to-[#0e1a1e]"
+        {/* Headline */}
+        <h1 className="reveal font-serif font-bold text-5xl md:text-6xl lg:text-7xl text-foreground leading-[1.05] tracking-tight mb-6 text-balance">
+          Watch Together,{" "}
+          <em className="text-primary not-italic">Choose Together.</em>
+        </h1>
+
+        {/* Subheadline */}
+        <p className="reveal text-lg md:text-xl text-muted-foreground leading-relaxed mb-10 max-w-md mx-auto lg:mx-0">
+          DateFlix matches you and your partner on movies you&apos;ll both love — swipe, match, and enjoy the perfect movie night.
+        </p>
+
+        {/* Store Buttons */}
+        <div className="reveal flex flex-wrap gap-4 justify-center lg:justify-start mb-12">
+          <a 
+            href="#download" 
+            className="flex items-center gap-4 bg-foreground text-white px-6 py-3.5 rounded-2xl hover:bg-foreground/90 transition-all hover:scale-105 hover:shadow-xl"
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-[var(--brand)]/15 to-[#ff8c00]/[.08]" />
-            <span
-              className="absolute top-3 left-3 rounded-full bg-[var(--brand)]/90 px-2.5 py-[3px]
-                         text-[10px] font-bold uppercase tracking-[0.5px] text-white"
-            >
-              Thriller
-            </span>
-            <span className="absolute bottom-3.5 left-3.5 right-3.5 text-[18px] font-bold text-[#f5f5f7]">
-              Inception
-            </span>
-            <div
-              className="match-flash absolute inset-0 flex items-center justify-center
-                          bg-[var(--brand)]/90 text-[28px] font-black text-white"
-            >
-              MATCH!
+            <Apple />
+            <div className="text-left">
+              <div className="text-[10px] text-white/60 font-medium">Download on the</div>
+              <div className="text-sm font-semibold">App Store</div>
             </div>
+          </a>
+          <a 
+            href="#download" 
+            className="flex items-center gap-4 bg-white border-2 border-border text-foreground px-6 py-3.5 rounded-2xl hover:border-foreground/20 transition-all hover:scale-105 hover:shadow-xl"
+          >
+            <GooglePlay />
+            <div className="text-left">
+              <div className="text-[10px] text-muted-foreground font-medium">Get it on</div>
+              <div className="text-sm font-semibold">Google Play</div>
+            </div>
+          </a>
+        </div>
+
+        {/* Social Proof */}
+        <div className="reveal flex items-center gap-4 justify-center lg:justify-start">
+          <div className="flex -space-x-3">
+            {[
+              "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop",
+              "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
+              "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
+              "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop",
+            ].map((src, i) => (
+              <div key={i} className="w-10 h-10 rounded-full border-2 border-white overflow-hidden">
+                <Image src={src} alt="User" width={40} height={40} className="object-cover" />
+              </div>
+            ))}
           </div>
-          {/* Swipe row */}
-          <div className="mb-3 flex items-center justify-center gap-3.5">
-            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white/[.08] text-[18px] text-[#ccc]">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          <div>
+            <div className="flex items-center gap-1">
+              {[1, 2, 3, 4, 5].map(i => <Star key={i} className="w-3.5 h-3.5 text-amber-400" />)}
             </div>
-            <div className="text-center text-[11px] leading-relaxed text-white/40">
-              Swipe to<br />decide
-            </div>
-            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[var(--brand)] text-[18px] text-white">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-            </div>
-          </div>
-          {/* Match bar */}
-          <div className="flex items-center gap-2.5 rounded-xl border border-[var(--brand)]/20 bg-white/[.05] px-3.5 py-2.5">
-            <div className="pulse-dot h-2 w-2 shrink-0 rounded-full bg-[var(--brand)]" />
-            <span className="text-[11px] font-medium text-[#ccc]">
-              <strong className="text-[#ff6b6b]">Alex</strong> also liked this!
-            </span>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              <span className="font-semibold text-foreground">2.1M+ couples</span> finding movies together
+            </p>
           </div>
         </div>
       </div>
-    </div>
-  );
-}
 
-/* ══════════════════════════════════════════════════════════════════════════════
-   HERO
-══════════════════════════════════════════════════════════════════════════════ */
-function Hero() {
-  return (
-    <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-hero-gradient px-6 pb-20 pt-[120px] text-center">
-      {/* Soft radial overlay */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse at 50% 20%, rgba(229,9,20,0.04), transparent 60%)",
-        }}
-      />
-
-      {/* Badge */}
-      <div
-        className="hero-badge mb-8 inline-flex items-center gap-2.5 rounded-full border border-[var(--brand)]/15
-                    bg-white pl-3 pr-5 py-2 text-[13px] font-medium text-[var(--brand)]
-                    shadow-[0_2px_12px_rgba(229,9,20,0.06)]"
-      >
-        <span className="pulse-dot h-2 w-2 shrink-0 rounded-full bg-[var(--brand)]" />
-        Now available on iOS & Android
-      </div>
-
-      {/* H1 */}
-      <h1
-        className="hero-h1 mb-6 max-w-[820px] font-serif font-black leading-[1.02] tracking-tight text-[var(--text-primary)]"
-        style={{ fontSize: "clamp(48px, 7.5vw, 88px)" }}
-      >
-        <span className="text-balance">
-          Watch Together,{" "}
-          <span className="text-[var(--brand)]">Choose Together.</span>
-        </span>
-      </h1>
-
-      {/* Subtitle */}
-      <p className="hero-sub mb-12 max-w-[520px] text-lg leading-relaxed text-[var(--text-secondary)]">
-        Duo matches you and your partner on movies you&apos;ll both love —
-        swipe, match, and enjoy the perfect movie night, every time.
-      </p>
-
-      {/* Store Buttons */}
-      <div className="hero-btns mb-20 flex flex-wrap items-center justify-center gap-4">
-        <a
-          href="#download"
-          className="store-btn flex items-center gap-3 rounded-2xl bg-[var(--text-primary)] px-7 py-4
-                     text-white no-underline shadow-[0_12px_40px_rgba(15,23,41,0.2)]"
-        >
-          <AppleIcon className="w-6 h-6" />
-          <div className="text-left">
-            <div className="text-[10px] font-normal opacity-70 leading-tight">Download on the</div>
-            <div className="text-[15px] font-semibold leading-tight">App Store</div>
+      {/* Right - Hero Image with Movie Cards */}
+      <div className="reveal flex-1 relative mt-16 lg:mt-0 lg:ml-12">
+        {/* Main couple image */}
+        <div className="relative w-[340px] md:w-[420px] mx-auto">
+          <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl">
+            <Image
+              src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=800&h=1000&fit=crop"
+              alt="Couple enjoying movie night together"
+              fill
+              className="object-cover"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
           </div>
-        </a>
-        <a
-          href="#download"
-          className="store-btn flex items-center gap-3 rounded-2xl bg-[var(--text-primary)] px-7 py-4
-                     text-white no-underline shadow-[0_12px_40px_rgba(15,23,41,0.2)]"
-        >
-          <GooglePlayIcon className="w-6 h-6" />
-          <div className="text-left">
-            <div className="text-[10px] font-normal opacity-70 leading-tight">Get it on</div>
-            <div className="text-[15px] font-semibold leading-tight">Google Play</div>
+
+          {/* Floating Movie Cards */}
+          <div className="absolute -left-16 top-8 hidden lg:block animate-[float_5s_ease-in-out_infinite]">
+            <MovieCard
+              title="Oppenheimer"
+              year="2023"
+              rating="8.9"
+              genre="Drama"
+              image="https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=400&h=600&fit=crop"
+              rotation={-8}
+              scale={0.9}
+            />
           </div>
-        </a>
+          
+          <div className="absolute -right-12 top-32 hidden lg:block animate-[float_6s_ease-in-out_infinite_0.5s]">
+            <MovieCard
+              title="La La Land"
+              year="2016"
+              rating="8.0"
+              genre="Romance"
+              image="https://images.unsplash.com/photo-1485846234645-a62644f84728?w=400&h=600&fit=crop"
+              rotation={6}
+              scale={0.85}
+              isMatch
+            />
+          </div>
+
+          {/* Match notification */}
+          <div className="absolute -right-4 lg:right-8 bottom-20 bg-white rounded-2xl shadow-xl px-5 py-4 flex items-center gap-3 border border-border animate-[float_4s_ease-in-out_infinite_1s]">
+            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+              <Heart className="w-6 h-6 text-primary" />
+            </div>
+            <div>
+              <p className="font-semibold text-foreground text-sm">{"It's a Match!"}</p>
+              <p className="text-xs text-muted-foreground">You both want to watch this!</p>
+            </div>
+          </div>
+
+          {/* Stats chip */}
+          <div className="absolute left-0 lg:-left-8 bottom-8 bg-white/95 backdrop-blur-sm rounded-xl shadow-lg px-4 py-3 flex items-center gap-2 border border-border">
+            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+            <span className="text-sm font-medium text-foreground">847 matches today</span>
+          </div>
+        </div>
       </div>
 
-      <div className="hero-visual">
-        <PhoneMockup />
-      </div>
+      {/* Floating keyframes */}
+      <style jsx>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-12px); }
+        }
+      `}</style>
     </section>
   );
 }
 
-/* ══════════════════════════════════════════════════════════════════════════════
-   TICKER
-══════════════════════════════════════════════════════════════════════════════ */
+/* ─── BRANDS TICKER ──────────────────────────────────────────────────────────── */
 function Ticker() {
-  const items = [
-    "Swipe to Match",
-    "Couples Movie Nights",
-    "AI Recommendations",
-    "Real-Time Partner Sync",
-    "Every Genre, Every Mood",
-    "2.1M Happy Couples",
-  ];
+  const items = ["Swipe to Match", "Couples Movie Nights", "AI Recommendations", "Real-Time Sync", "Every Genre", "2.1M Couples", "No More Arguments", "Find Tonight&apos;s Film"];
+  
   return (
-    <div className="overflow-hidden border-t border-b border-[var(--border)] bg-white py-5">
-      <div className="ticker-track flex whitespace-nowrap">
-        {[...items, ...items].map((item, i) => (
-          <span
-            key={i}
-            className="inline-flex items-center gap-3 px-8 text-[15px] font-medium text-[var(--text-secondary)]"
-          >
-            {item}{" "}
-            <span className="text-[var(--brand)] text-xs">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8l-6.2 4.5 2.4-7.4L2 9.4h7.6L12 2z"/></svg>
-            </span>
+    <div className="py-6 border-y border-border bg-muted/30 overflow-hidden">
+      <div className="flex animate-[ticker_30s_linear_infinite]">
+        {[...items, ...items, ...items, ...items].map((item, i) => (
+          <span key={i} className="flex items-center gap-4 px-8 text-sm font-medium text-muted-foreground whitespace-nowrap">
+            {item.replace("&apos;", "'")}
+            <span className="text-primary/40">◆</span>
           </span>
         ))}
       </div>
+      <style jsx>{`
+        @keyframes ticker {
+          from { transform: translateX(0); }
+          to { transform: translateX(-50%); }
+        }
+      `}</style>
     </div>
   );
 }
 
-/* ══════════════════════════════════════════════════════════════════════════════
-   HOW IT WORKS
-══════════════════════════════════════════════════════════════════════════════ */
+/* ─── HOW IT WORKS ───────────────────────────────────────────────────────────── */
 function HowItWorks() {
   const steps = [
     {
       n: "01",
-      icon: (
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" fill="var(--brand)"/>
-        </svg>
-      ),
-      title: "Connect with Your Partner",
-      body: "Create your couple profile and link with your partner in seconds. No friction — just fun from day one.",
+      title: "Connect Your Partner",
+      body: "Create your couple profile and link in seconds. A shared code — zero friction.",
+      image: "https://images.unsplash.com/photo-1522556189639-b150ed9c4330?w=600&h=400&fit=crop",
     },
     {
       n: "02",
-      icon: (
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18" fill="none"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/>
-        </svg>
-      ),
-      title: "Swipe Movies Independently",
-      body: "Each of you swipes through a curated movie feed built around your individual tastes and streaming services.",
+      title: "Swipe Independently",
+      body: "Each partner swipes through a curated feed built around your individual taste.",
+      image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=400&fit=crop",
     },
     {
       n: "03",
-      icon: (
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="var(--brand)">
-          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-        </svg>
-      ),
-      title: "Watch What You Both Love",
-      body: "When you both swipe right on the same film — it's a match! Get notified instantly, then press play.",
+      title: "Watch What You Love",
+      body: "Both swipe right on the same film — instant match notification. Press play.",
+      image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=600&h=400&fit=crop",
     },
   ];
 
   return (
-    <section id="how-it-works" className="bg-section-soft">
-      <div className="mx-auto max-w-[1100px] px-6 py-28 lg:py-36 text-center">
-        <Reveal>
-          <span className="mb-3 block text-xs font-bold uppercase tracking-[4px] text-[var(--brand)] font-sans">
+    <section id="how-it-works" className="py-24 lg:py-32 bg-white">
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="text-center mb-16">
+          <span className="reveal inline-block text-xs font-bold tracking-[0.25em] uppercase text-primary mb-4">
             How It Works
           </span>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <h2
-            className="mb-5 font-serif font-black leading-[1.05] tracking-tight text-[var(--text-primary)]"
-            style={{ fontSize: "clamp(34px, 4.5vw, 56px)" }}
-          >
-            Three swipes to your{" "}
-            <span className="text-[var(--brand)]">next favourite night.</span>
+          <h2 className="reveal font-serif font-bold text-4xl md:text-5xl lg:text-6xl text-foreground leading-tight mb-6 text-balance">
+            Three steps to your{" "}
+            <em className="text-primary not-italic">perfect night in.</em>
           </h2>
-        </Reveal>
-        <Reveal delay={0.15}>
-          <p className="mx-auto mb-16 max-w-[480px] text-[16px] leading-relaxed text-[var(--text-secondary)]">
-            No more scrolling for 45 minutes. DateFlix makes the decision
-            delightfully simple.
+          <p className="reveal text-lg text-muted-foreground max-w-md mx-auto">
+            No more scrolling for 45 minutes. DateFlix makes the decision delightfully simple.
           </p>
-        </Reveal>
+        </div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          {steps.map((s, i) => (
-            <Reveal key={s.n} delay={i * 0.12}>
-              <div
-                className="step-card relative overflow-hidden rounded-3xl border border-[var(--border)] bg-white text-left p-10
-                           shadow-[0_2px_16px_rgba(15,23,41,0.03)]"
-              >
-                <div
-                  className="step-topline absolute left-0 right-0 top-0 h-[3px] opacity-0 transition-opacity duration-300"
-                  style={{
-                    background:
-                      "linear-gradient(90deg, transparent, var(--brand), transparent)",
-                  }}
+        <div className="grid md:grid-cols-3 gap-8">
+          {steps.map((step, i) => (
+            <div 
+              key={step.n} 
+              className="reveal group relative bg-muted/30 rounded-3xl overflow-hidden border border-border hover:border-primary/30 hover:shadow-xl transition-all duration-500"
+              style={{ transitionDelay: `${i * 100}ms` }}
+            >
+              {/* Image */}
+              <div className="relative h-52 overflow-hidden">
+                <Image
+                  src={step.image}
+                  alt={step.title}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
                 />
-                <div className="mb-5 text-[64px] font-black leading-none tracking-[-3px] text-[var(--brand)] opacity-[0.08] font-serif">
-                  {s.n}
+                <div className="absolute inset-0 bg-gradient-to-t from-white via-white/50 to-transparent" />
+              </div>
+
+              {/* Content */}
+              <div className="relative p-8 -mt-12">
+                <div className="w-14 h-14 rounded-2xl bg-primary flex items-center justify-center text-white font-serif font-bold text-lg mb-6 shadow-lg">
+                  {step.n}
                 </div>
-                <div className="mb-5 flex items-center justify-center w-14 h-14 rounded-2xl bg-[var(--brand-light)]">
-                  {s.icon}
-                </div>
-                <h3 className="mb-3 text-xl font-bold tracking-tight text-[var(--text-primary)]">
-                  {s.title}
+                <h3 className="font-serif font-bold text-xl text-foreground mb-3">
+                  {step.title}
                 </h3>
-                <p className="text-[15px] leading-relaxed text-[var(--text-secondary)]">
-                  {s.body}
+                <p className="text-muted-foreground leading-relaxed">
+                  {step.body}
                 </p>
               </div>
-            </Reveal>
+            </div>
           ))}
         </div>
       </div>
@@ -492,394 +454,138 @@ function HowItWorks() {
   );
 }
 
-/* ══════════════════════════════════════════════════════════════════════════════
-   STATS
-══════════════════════════════════════════════════════════════════════════════ */
-function StatsBand() {
+/* ─── STATS ───────────────────────────────────────────────────────────────────── */
+function Stats() {
   const stats = [
     { num: "2.1M", label: "Couples using DateFlix" },
     { num: "18M+", label: "Movies matched & watched" },
-    { num: "4.9", label: "Average App Store rating", suffix: "★" },
+    { num: "4.9★", label: "Average App Store rating" },
   ];
+  
   return (
-    <div className="mx-auto max-w-[1100px] px-6 -mt-1">
-      <Reveal>
-        <div className="rounded-[32px] border border-[var(--border)] bg-white px-10 lg:px-16 py-16 lg:py-20 text-center shadow-[0_4px_32px_rgba(15,23,41,0.04)]">
-          <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
-            {stats.map((s, i) => (
-              <div key={i}>
-                <div
-                  className="font-serif font-black leading-none tracking-tight text-[var(--text-primary)]"
-                  style={{ fontSize: "clamp(40px, 5.5vw, 68px)" }}
-                >
-                  {s.num}
-                  {s.suffix && <span className="text-[var(--brand)]">{s.suffix}</span>}
-                </div>
-                <div className="mt-3 text-[15px] leading-relaxed text-[var(--text-secondary)]">
-                  {s.label}
-                </div>
+    <div className="max-w-5xl mx-auto px-6 -mt-1">
+      <div className="reveal bg-foreground rounded-3xl p-10 lg:p-14">
+        <div className="grid md:grid-cols-3 gap-10 text-center">
+          {stats.map((s, i) => (
+            <div key={i}>
+              <div className="font-serif font-bold text-5xl lg:text-6xl text-white mb-2">
+                {s.num}
               </div>
-            ))}
-          </div>
+              <div className="text-white/60 text-sm font-medium">{s.label}</div>
+            </div>
+          ))}
         </div>
-      </Reveal>
+      </div>
     </div>
   );
 }
 
-/* ══════════════════════════════════════════════════════════════════════════════
-   FEATURES
-══════════════════════════════════════════════════════════════════════════════ */
-type FeatureDef = {
-  label: string;
-  title: React.ReactNode;
-  body: string;
-  tags: string[];
-  visual: React.ReactNode;
-};
-
+/* ─── FEATURES ──────────────────────────────────────────────────────────────── */
 function Features() {
-  const features: FeatureDef[] = [
+  const features = [
     {
       label: "Smart Matching",
-      title: (
-        <>
-          <span className="text-[var(--brand)]">Swipe, match,</span>
-          <br />never argue again.
-        </>
-      ),
-      body: "Our Tinder-style swiping experience means both of you decide what to watch — without the endless scrolling or guilty compromises.",
-      tags: ["Real-time sync", "Instant notifications", "Match history"],
-      visual: (
-        <div className="flex h-full items-center justify-center">
-          <div className="flex items-center">
-            {(
-              [
-                {
-                  bg: "linear-gradient(135deg,#e8edf8,#dce3f4)",
-                  title: "Dune",
-                  deg: -4,
-                  scale: 0.92,
-                  icon: (
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#5f6d87"><path d="M12 3v18l-5-3V6l5-3zm2 0v18l5-3V6l-5-3z" /></svg>
-                  ),
-                },
-                {
-                  bg: "linear-gradient(135deg,#ffe8e8,#ffd4d4)",
-                  title: "Oppenheimer",
-                  deg: 0,
-                  scale: 1.1,
-                  match: true,
-                  icon: (
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--brand)"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                  ),
-                },
-                {
-                  bg: "linear-gradient(135deg,#e8f0ff,#d4e4f0)",
-                  title: "Batman",
-                  deg: 4,
-                  scale: 0.92,
-                  icon: (
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#5f6d87"><path d="M20 12c0-1.1-.9-2-2-2V7c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v3c-1.1 0-2 .9-2 2s.9 2 2 2v3c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2v-3c1.1 0 2-.9 2-2z"/></svg>
-                  ),
-                },
-              ] as {
-                bg: string;
-                title: string;
-                deg: number;
-                scale: number;
-                match?: boolean;
-                icon: React.ReactNode;
-              }[]
-            ).map((c, i) => (
-              <div
-                key={i}
-                className="relative flex flex-col justify-end overflow-hidden rounded-2xl border border-[var(--border)] p-2.5"
-                style={{
-                  width: 92,
-                  height: 130,
-                  background: c.bg,
-                  transform: `rotate(${c.deg}deg) scale(${c.scale})`,
-                  boxShadow: c.match
-                    ? "0 24px 64px rgba(229,9,20,.15)"
-                    : "0 8px 24px rgba(15,23,41,.06)",
-                  zIndex: c.match ? 2 : 1,
-                  marginLeft: i > 0 ? -14 : 0,
-                }}
-              >
-                <span className="absolute left-2.5 top-2.5">{c.icon}</span>
-                <span className="text-[10px] font-bold leading-tight text-[var(--text-primary)]">
-                  {c.title}
-                </span>
-                {c.match && (
-                  <div className="match-flash2 absolute inset-0 flex items-center justify-center bg-[var(--brand)]/90 text-[13px] font-black text-white">
-                    MATCH!
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      ),
+      title: "Swipe, match, never argue again.",
+      body: "Our Tinder-style swiping experience means both of you decide what to watch — without endless scrolling or guilty compromises.",
+      image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&h=600&fit=crop",
+      tags: ["Real-time sync", "Instant alerts", "Match history"],
     },
     {
       label: "AI Recommendations",
-      title: (
-        <>
-          <span className="text-[var(--brand)]">Learns your</span>
-          <br />{"couple's taste."}
-        </>
-      ),
-      body: "The more you swipe, the smarter DateFlix gets. Our AI builds a shared taste profile for your relationship and serves up movies you'll both love.",
+      title: "Learns your couple&apos;s unique taste.",
+      body: "The more you swipe, the smarter DateFlix gets. Our AI builds a shared taste profile for your relationship.",
+      image: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=800&h=600&fit=crop",
       tags: ["Machine learning", "Genre analysis", "Mood-based picks"],
-      visual: (
-        <div className="flex h-full flex-col justify-center gap-3.5 p-9">
-          <div className="mb-1 text-lg font-medium text-[var(--text-primary)]">
-            &ldquo;Based on your taste&hellip;&rdquo;
-          </div>
-          {(
-            [
-              ["Sci-Fi", "88%"],
-              ["Thriller", "82%"],
-              ["Romance", "71%"],
-              ["Drama", "65%"],
-            ] as [string, string][]
-          ).map(([genre, pct]) => (
-            <div key={genre} className="flex items-center gap-3.5">
-              <span className="w-[68px] shrink-0 text-[13px] font-medium text-[var(--text-primary)]">
-                {genre}
-              </span>
-              <div
-                className="flex-1 overflow-hidden rounded-full bg-[var(--surface)]"
-                style={{ height: 8 }}
-              >
-                <div
-                  className="h-full rounded-full bg-gradient-to-r from-[var(--brand)] to-[#ff6b6b]"
-                  style={{ width: pct }}
-                />
-              </div>
-              <span className="w-9 text-right text-xs font-semibold text-[var(--brand)]">
-                {pct}
-              </span>
-            </div>
-          ))}
-          <div className="mt-2 flex items-center gap-2.5 rounded-2xl border border-[var(--brand)]/15 bg-[var(--brand-light)] px-4 py-3">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--brand)"><circle cx="12" cy="12" r="10" fill="none" stroke="var(--brand)" strokeWidth="2"/><path d="M12 8v8M8 12h8" stroke="var(--brand)" strokeWidth="2" strokeLinecap="round"/></svg>
-            <span className="text-[13px] text-[var(--text-primary)]">
-              We recommend <strong>Interstellar</strong> for tonight
-            </span>
-          </div>
-        </div>
-      ),
     },
     {
       label: "Cross-Platform",
-      title: (
-        <>
-          <span className="text-[var(--brand)]">Always in sync,</span>
-          <br />wherever you are.
-        </>
-      ),
-      body: "Long distance or side by side — DateFlix keeps your movies and matches perfectly synced across every device in real time.",
+      title: "Always in sync, wherever you are.",
+      body: "Long distance or side by side — DateFlix keeps your movies and matches synced across every device in real time.",
+      image: "https://images.unsplash.com/photo-1512070679279-8988d32161be?w=800&h=600&fit=crop",
       tags: ["iCloud Sync", "Cross-device", "Offline mode"],
-      visual: (
-        <div className="flex h-full flex-col items-center justify-center gap-5">
-          <div className="flex flex-wrap justify-center gap-4">
-            {(
-              [
-                [
-                  <svg key="ios" width="28" height="28" viewBox="0 0 24 24" fill="#5f6d87"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>,
-                  "iOS",
-                ],
-                [
-                  <svg key="android" width="28" height="28" viewBox="0 0 24 24" fill="#5f6d87"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24C14.93 8.29 13.5 8 12 8s-2.93.29-4.47.91L5.65 5.67c-.19-.29-.58-.38-.87-.2-.28.18-.37.54-.22.83L6.4 9.48C3.3 11.25 1.28 14.44 1 18h22c-.28-3.56-2.3-6.75-5.4-8.52zM7 15.25c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25zm10 0c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25z"/></svg>,
-                  "Android",
-                ],
-                [
-                  <svg key="web" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#5f6d87" strokeWidth="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>,
-                  "Web",
-                ],
-              ] as [React.ReactNode, string][]
-            ).map(([icon, label]) => (
-              <div
-                key={label}
-                className="flex min-w-[88px] flex-col items-center gap-2.5 rounded-2xl border
-                           border-[var(--border)] bg-white px-6 py-5 shadow-[0_4px_16px_rgba(15,23,41,0.04)]"
-              >
-                {icon}
-                <span className="text-[13px] font-semibold text-[var(--text-primary)]">
-                  {label}
-                </span>
-              </div>
-            ))}
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="pulse-dot h-1.5 w-1.5 rounded-full bg-[var(--brand)]" />
-            <span className="text-[13px] text-[var(--text-secondary)]">
-              Syncs instantly across all devices
-            </span>
-          </div>
-        </div>
-      ),
     },
   ];
 
   return (
-    <section id="features" className="mx-auto max-w-[1100px] px-6 py-28 lg:py-36">
-      <Reveal>
-        <span className="mb-3 block text-xs font-bold uppercase tracking-[4px] text-[var(--brand)] font-sans">
-          Features
-        </span>
-      </Reveal>
-      <Reveal delay={0.1}>
-        <h2
-          className="mb-16 lg:mb-20 font-serif font-black leading-[1.05] tracking-tight text-[var(--text-primary)]"
-          style={{ fontSize: "clamp(34px, 4.5vw, 56px)" }}
-        >
-          Built for couples{" "}
-          <span className="text-[var(--brand)]">who love cinema.</span>
-        </h2>
-      </Reveal>
+    <section id="features" className="py-24 lg:py-32 bg-muted/20">
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="text-center mb-20">
+          <span className="reveal inline-block text-xs font-bold tracking-[0.25em] uppercase text-primary mb-4">
+            Features
+          </span>
+          <h2 className="reveal font-serif font-bold text-4xl md:text-5xl lg:text-6xl text-foreground leading-tight text-balance">
+            Built for couples who{" "}
+            <em className="text-primary not-italic">love cinema.</em>
+          </h2>
+        </div>
 
-      <div className="flex flex-col gap-20 lg:gap-28">
-        {features.map((f, i) => {
-          const reverse = i % 2 === 1;
-          return (
-            <div
-              key={i}
-              className="grid grid-cols-1 items-center gap-10 lg:gap-16 md:grid-cols-2"
-              style={
-                { direction: reverse ? "rtl" : "ltr" } as React.CSSProperties
-              }
+        <div className="space-y-24">
+          {features.map((f, i) => (
+            <div 
+              key={i} 
+              className={`reveal grid lg:grid-cols-2 gap-12 items-center ${i % 2 === 1 ? "lg:flex-row-reverse" : ""}`}
             >
-              <div
-                className={[
-                  reverse ? "reveal-right" : "reveal-left",
-                  "relative h-[360px] overflow-hidden rounded-3xl border border-[var(--border)] bg-white shadow-[0_4px_32px_rgba(15,23,41,0.04)]",
-                ].join(" ")}
-                style={{ direction: "ltr" } as React.CSSProperties}
-              >
-                {f.visual}
+              {/* Image */}
+              <div className={`relative ${i % 2 === 1 ? "lg:order-2" : ""}`}>
+                <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl">
+                  <Image
+                    src={f.image}
+                    alt={f.title}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                
+                {/* Floating movie cards for first feature */}
+                {i === 0 && (
+                  <>
+                    <div className="absolute -bottom-6 -left-6 hidden lg:block">
+                      <MovieCard
+                        title="Dune"
+                        year="2021"
+                        rating="8.0"
+                        genre="Sci-Fi"
+                        image="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=400&h=600&fit=crop"
+                        rotation={-5}
+                        scale={0.7}
+                      />
+                    </div>
+                    <div className="absolute -top-4 -right-4 hidden lg:block">
+                      <MovieCard
+                        title="Interstellar"
+                        year="2014"
+                        rating="8.6"
+                        genre="Sci-Fi"
+                        image="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=400&h=600&fit=crop"
+                        rotation={8}
+                        scale={0.65}
+                        isMatch
+                      />
+                    </div>
+                  </>
+                )}
               </div>
-              <div
-                className={reverse ? "reveal-left" : "reveal-right"}
-                style={{ direction: "ltr" } as React.CSSProperties}
-              >
-                <span className="mb-4 block text-xs font-bold uppercase tracking-[3px] text-[var(--brand)]">
+
+              {/* Content */}
+              <div className={i % 2 === 1 ? "lg:order-1" : ""}>
+                <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase text-primary mb-4">
                   {f.label}
                 </span>
-                <h3
-                  className="mb-5 font-serif font-black leading-[1.1] tracking-tight text-[var(--text-primary)]"
-                  style={{ fontSize: "clamp(26px, 3.2vw, 42px)" }}
-                >
-                  {f.title}
+                <h3 className="font-serif font-bold text-3xl md:text-4xl text-foreground leading-tight mb-5">
+                  {f.title.replace("&apos;", "'")}
                 </h3>
-                <p className="mb-7 text-[15px] leading-relaxed text-[var(--text-secondary)]">
+                <p className="text-lg text-muted-foreground leading-relaxed mb-8">
                   {f.body}
                 </p>
-                <div className="flex flex-wrap gap-2.5">
-                  {f.tags.map((t) => (
-                    <span
-                      key={t}
-                      className="rounded-full border border-[var(--brand)]/15 bg-[var(--brand-light)] px-4 py-1.5
-                                 text-[13px] font-medium text-[var(--brand)]"
-                    >
+                <div className="flex flex-wrap gap-3">
+                  {f.tags.map(t => (
+                    <span key={t} className="px-4 py-2 bg-white border border-border rounded-full text-sm font-medium text-muted-foreground">
                       {t}
                     </span>
                   ))}
                 </div>
               </div>
             </div>
-          );
-        })}
-      </div>
-    </section>
-  );
-}
-
-/* ══════════════════════════════════════════════════════════════════════════════
-   TESTIMONIALS
-══════════════════════════════════════════════════════════════════════════════ */
-function Testimonials() {
-  const reviews = [
-    {
-      stars: 5,
-      quote:
-        "We used to spend 45 minutes arguing about what to watch. DateFlix solved that completely. Now it's the best part of our Friday night.",
-      name: "Sarah & Jake",
-      meta: "Together 3 years \u00b7 214 movies matched",
-      initials: "SJ",
-      color: "bg-blue-50 text-blue-600",
-    },
-    {
-      stars: 5,
-      quote:
-        "Long-distance and DateFlix is what keeps our movie nights alive. We swipe from different countries and enjoy films together.",
-      name: "Marcus & L\u00e9a",
-      meta: "Long distance \u00b7 89 movies matched",
-      initials: "ML",
-      color: "bg-amber-50 text-amber-600",
-    },
-    {
-      stars: 5,
-      quote:
-        "The AI learned we both secretly love terrible horror movies. No judgment, just matches. We're completely obsessed.",
-      name: "Priya & Daniel",
-      meta: "Newlyweds \u00b7 56 movies matched",
-      initials: "PD",
-      color: "bg-rose-50 text-rose-600",
-    },
-  ];
-
-  return (
-    <section className="bg-section-soft">
-      <div className="mx-auto max-w-[1100px] px-6 py-28 lg:py-36 text-center">
-        <Reveal>
-          <span className="mb-3 block text-xs font-bold uppercase tracking-[4px] text-[var(--brand)] font-sans">
-            Couples Love It
-          </span>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <h2
-            className="mb-14 lg:mb-16 font-serif font-black leading-[1.05] tracking-tight text-[var(--text-primary)]"
-            style={{ fontSize: "clamp(34px, 4.5vw, 56px)" }}
-          >
-            Real reviews from{" "}
-            <span className="text-[var(--brand)]">real movie nights.</span>
-          </h2>
-        </Reveal>
-
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          {reviews.map((r, i) => (
-            <Reveal key={i} delay={i * 0.12}>
-              <div className="testi-card rounded-3xl border border-[var(--border)] bg-white p-9 text-left shadow-[0_2px_16px_rgba(15,23,41,0.03)]">
-                <div className="mb-5 flex gap-1">
-                  {Array.from({ length: r.stars }).map((_, j) => (
-                    <svg key={j} width="16" height="16" viewBox="0 0 24 24" fill="var(--brand)">
-                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                    </svg>
-                  ))}
-                </div>
-                <p className="mb-7 text-[15px] leading-relaxed text-[var(--text-primary)]">
-                  &ldquo;{r.quote}&rdquo;
-                </p>
-                <div className="flex items-center gap-3">
-                  <div
-                    className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold ${r.color}`}
-                  >
-                    {r.initials}
-                  </div>
-                  <div>
-                    <div className="text-sm font-bold text-[var(--text-primary)]">
-                      {r.name}
-                    </div>
-                    <div className="text-xs text-[var(--text-secondary)]">
-                      {r.meta}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Reveal>
           ))}
         </div>
       </div>
@@ -887,371 +593,319 @@ function Testimonials() {
   );
 }
 
-/* ══════════════════════════════════════════════════════════════════════════════
-   PRICING
-══════════════════════════════════════════════════════════════════════════════ */
-type PlanFeature = { text: string; ok: boolean };
-type Plan = {
-  name: string;
-  price: { monthly: number; annual: number };
-  desc: string;
-  cta: string;
-  featured: boolean;
-  badge: string | null;
-  features: PlanFeature[];
-};
+/* ─── TESTIMONIALS ──────────────────────────────────────────────────────────── */
+function Testimonials() {
+  const reviews = [
+    {
+      stars: 5,
+      quote: "We used to spend 45 minutes arguing about what to watch. DateFlix solved that completely. Now it's the best part of our Friday night.",
+      name: "Sarah & Jake",
+      meta: "Together 3 years · 214 movies matched",
+      image: "https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?w=200&h=200&fit=crop",
+    },
+    {
+      stars: 5,
+      quote: "Long-distance and DateFlix is what keeps our movie nights alive. We swipe from different countries and enjoy films together.",
+      name: "Marcus & Léa",
+      meta: "Long distance · 89 movies matched",
+      image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&h=200&fit=crop",
+    },
+    {
+      stars: 5,
+      quote: "The AI learned we both secretly love terrible horror movies. No judgment, just matches. We're completely obsessed.",
+      name: "Priya & Daniel",
+      meta: "Newlyweds · 56 movies matched",
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop",
+    },
+  ];
 
-const PLANS: Plan[] = [
+  return (
+    <section className="py-24 lg:py-32 bg-white">
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="text-center mb-16">
+          <span className="reveal inline-block text-xs font-bold tracking-[0.25em] uppercase text-primary mb-4">
+            Couples Love It
+          </span>
+          <h2 className="reveal font-serif font-bold text-4xl md:text-5xl lg:text-6xl text-foreground leading-tight text-balance">
+            Real reviews from{" "}
+            <em className="text-primary not-italic">real movie nights.</em>
+          </h2>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-8">
+          {reviews.map((r, i) => (
+            <div 
+              key={i} 
+              className="reveal bg-muted/30 rounded-3xl p-8 border border-border hover:border-primary/20 hover:shadow-xl transition-all duration-500"
+              style={{ transitionDelay: `${i * 100}ms` }}
+            >
+              {/* Stars */}
+              <div className="flex gap-1 mb-6">
+                {Array.from({ length: r.stars }).map((_, j) => (
+                  <Star key={j} className="w-5 h-5 text-amber-400" />
+                ))}
+              </div>
+
+              {/* Quote */}
+              <p className="text-foreground leading-relaxed mb-8 text-lg">
+                &ldquo;{r.quote}&rdquo;
+              </p>
+
+              {/* Author */}
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full overflow-hidden">
+                  <Image src={r.image} alt={r.name} width={48} height={48} className="object-cover" />
+                </div>
+                <div>
+                  <div className="font-semibold text-foreground">{r.name}</div>
+                  <div className="text-xs text-muted-foreground">{r.meta}</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─── PRICING ──────────────────────────────────────────────────────────────── */
+const PLANS = [
   {
     name: "Free",
-    price: { monthly: 0, annual: 0 },
+    price: { mo: 0, yr: 0 },
     desc: "Everything you need to start matching movies with your partner.",
     cta: "Get Started Free",
     featured: false,
-    badge: null,
     features: [
-      { text: "Up to 20 swipes per day", ok: true },
-      { text: "Basic movie matching", ok: true },
-      { text: "Match history (last 10)", ok: true },
-      { text: "iOS & Android app", ok: true },
-      { text: "AI recommendations", ok: false },
-      { text: "Unlimited swipes", ok: false },
-      { text: "Streaming availability", ok: false },
-      { text: "Priority support", ok: false },
+      { t: "Up to 20 swipes/day", ok: true },
+      { t: "Basic movie matching", ok: true },
+      { t: "Match history (last 10)", ok: true },
+      { t: "iOS & Android app", ok: true },
+      { t: "AI recommendations", ok: false },
+      { t: "Unlimited swipes", ok: false },
     ],
   },
   {
     name: "Couple",
-    price: { monthly: 4.99, annual: 3.99 },
+    price: { mo: 4.99, yr: 3.99 },
     desc: "The full DateFlix experience for couples who love movies.",
     cta: "Start Free Trial",
     featured: true,
     badge: "Most Popular",
     features: [
-      { text: "Unlimited swipes", ok: true },
-      { text: "Advanced movie matching", ok: true },
-      { text: "Full match history", ok: true },
-      { text: "iOS, Android & Web", ok: true },
-      { text: "AI recommendations", ok: true },
-      { text: "Streaming availability", ok: true },
-      { text: "Mood-based picks", ok: true },
-      { text: "Priority support", ok: true },
+      { t: "Unlimited swipes", ok: true },
+      { t: "Advanced matching", ok: true },
+      { t: "Full match history", ok: true },
+      { t: "AI recommendations", ok: true },
+      { t: "Streaming availability", ok: true },
+      { t: "Priority support", ok: true },
     ],
   },
   {
     name: "Cinephile",
-    price: { monthly: 9.99, annual: 7.99 },
+    price: { mo: 9.99, yr: 7.99 },
     desc: "For couples who take their movie nights seriously.",
     cta: "Go Cinephile",
     featured: false,
-    badge: null,
     features: [
-      { text: "Everything in Couple", ok: true },
-      { text: "Curated watchlists", ok: true },
-      { text: "Director & actor filters", ok: true },
-      { text: "Date night planner", ok: true },
-      { text: "Early access to features", ok: true },
-      { text: "Exclusive film content", ok: true },
-      { text: "Annual film report", ok: true },
-      { text: "Dedicated support", ok: true },
+      { t: "Everything in Couple", ok: true },
+      { t: "Curated watchlists", ok: true },
+      { t: "Director & actor filters", ok: true },
+      { t: "Date night planner", ok: true },
+      { t: "Early access features", ok: true },
+      { t: "Dedicated support", ok: true },
     ],
   },
 ];
-
-function PricingCard({
-  plan,
-  annual,
-  delay,
-}: {
-  plan: Plan;
-  annual: boolean;
-  delay: number;
-}) {
-  const price = annual ? plan.price.annual : plan.price.monthly;
-
-  return (
-    <Reveal delay={delay}>
-      <div
-        className={[
-          "relative overflow-hidden rounded-3xl p-10",
-          plan.featured
-            ? "bg-[var(--text-primary)] shadow-[0_32px_80px_rgba(15,23,41,0.2)] scale-[1.03]"
-            : "pricing-plain bg-white border border-[var(--border)] shadow-[0_2px_16px_rgba(15,23,41,0.03)]",
-        ].join(" ")}
-      >
-        {plan.featured && (
-          <div
-            className="absolute left-0 right-0 top-0 h-[3px]"
-            style={{
-              background: "linear-gradient(90deg, var(--brand), #ff6b6b)",
-            }}
-          />
-        )}
-
-        {plan.badge && (
-          <div className="absolute right-5 top-5 rounded-full bg-[var(--brand)] px-3.5 py-1 text-[11px] font-bold tracking-wide text-white">
-            {plan.badge}
-          </div>
-        )}
-
-        <div
-          className={[
-            "mb-3 text-[13px] font-bold uppercase tracking-[3px]",
-            plan.featured ? "text-white/50" : "text-[var(--text-secondary)]",
-          ].join(" ")}
-        >
-          {plan.name}
-        </div>
-
-        <div className="mb-2 flex items-end gap-1">
-          <span
-            className={[
-              "text-[52px] font-serif font-black leading-none tracking-tight",
-              plan.featured ? "text-white" : "text-[var(--text-primary)]",
-            ].join(" ")}
-          >
-            {price === 0 ? "Free" : `$${price}`}
-          </span>
-          {price > 0 && (
-            <span
-              className={[
-                "mb-2.5 text-sm",
-                plan.featured ? "text-white/45" : "text-[var(--text-secondary)]",
-              ].join(" ")}
-            >
-              / mo
-            </span>
-          )}
-        </div>
-
-        {annual && price > 0 && (
-          <div
-            className={[
-              "mb-2 text-xs",
-              plan.featured ? "text-white/40" : "text-[var(--text-secondary)]",
-            ].join(" ")}
-          >
-            {"Billed as $" + (price * 12).toFixed(0) + "/year"}
-          </div>
-        )}
-
-        <p
-          className={[
-            "mb-7 min-h-[48px] text-sm leading-relaxed",
-            plan.featured ? "text-white/55" : "text-[var(--text-secondary)]",
-          ].join(" ")}
-        >
-          {plan.desc}
-        </p>
-
-        <div
-          className={[
-            "mb-6 h-px",
-            plan.featured ? "bg-white/10" : "bg-[var(--border)]",
-          ].join(" ")}
-        />
-
-        <ul className="mb-8 flex list-none flex-col gap-3 p-0">
-          {plan.features.map((f) => (
-            <li key={f.text} className="flex items-center gap-3">
-              <span
-                className={[
-                  "flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold",
-                  f.ok
-                    ? plan.featured
-                      ? "bg-[var(--brand)] text-white"
-                      : "bg-[var(--brand)]/10 text-[var(--brand)]"
-                    : plan.featured
-                    ? "bg-white/[.08] text-white/25"
-                    : "bg-[var(--surface)] text-[var(--text-muted)]",
-                ].join(" ")}
-              >
-                {f.ok ? "\u2713" : "\u2013"}
-              </span>
-              <span
-                className={[
-                  "text-sm",
-                  f.ok
-                    ? plan.featured
-                      ? "font-medium text-white"
-                      : "font-medium text-[var(--text-primary)]"
-                    : plan.featured
-                    ? "text-white/30"
-                    : "text-[var(--text-muted)]",
-                ].join(" ")}
-              >
-                {f.text}
-              </span>
-            </li>
-          ))}
-        </ul>
-
-        <a
-          href="#download"
-          className={[
-            "block rounded-full px-6 py-3.5 text-center text-[15px] font-bold no-underline transition-all duration-200",
-            plan.featured
-              ? "bg-[var(--brand)] text-white shadow-[0_8px_28px_rgba(229,9,20,0.35)] hover:shadow-[0_12px_36px_rgba(229,9,20,0.45)] hover:-translate-y-px"
-              : "border border-[var(--border)] bg-transparent text-[var(--text-primary)] hover:border-[var(--text-primary)] hover:bg-[var(--surface)]",
-          ].join(" ")}
-        >
-          {plan.cta}
-        </a>
-      </div>
-    </Reveal>
-  );
-}
 
 function Pricing() {
   const [annual, setAnnual] = useState(false);
 
   return (
-    <section id="pricing" className="mx-auto max-w-[1100px] px-6 py-28 lg:py-36">
-      <div className="mb-16 text-center">
-        <Reveal>
-          <span className="mb-3 block text-xs font-bold uppercase tracking-[4px] text-[var(--brand)] font-sans">
+    <section id="pricing" className="py-24 lg:py-32 bg-muted/20">
+      <div className="max-w-5xl mx-auto px-6">
+        <div className="text-center mb-14">
+          <span className="reveal inline-block text-xs font-bold tracking-[0.25em] uppercase text-primary mb-4">
             Pricing
           </span>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <h2
-            className="mb-5 font-serif font-black leading-[1.05] tracking-tight text-[var(--text-primary)]"
-            style={{ fontSize: "clamp(34px, 4.5vw, 56px)" }}
-          >
+          <h2 className="reveal font-serif font-bold text-4xl md:text-5xl lg:text-6xl text-foreground leading-tight mb-5 text-balance">
             Simple pricing,{" "}
-            <span className="text-[var(--brand)]">start for free.</span>
+            <em className="text-primary not-italic">start for free.</em>
           </h2>
-        </Reveal>
-        <Reveal delay={0.15}>
-          <p className="mx-auto mb-9 max-w-[440px] text-[16px] leading-relaxed text-[var(--text-secondary)]">
+          <p className="reveal text-lg text-muted-foreground max-w-md mx-auto mb-8">
             No hidden fees. Cancel anytime. Your first movie night is on us.
           </p>
-        </Reveal>
 
-        {/* Toggle */}
-        <Reveal delay={0.2}>
-          <div className="inline-flex items-center rounded-full border border-[var(--border)] bg-white p-1.5 shadow-[0_2px_8px_rgba(15,23,41,0.04)]">
-            <button
-              onClick={() => setAnnual(false)}
-              className={[
-                "rounded-full border-none px-5 py-2.5 text-sm font-semibold transition-all duration-200 cursor-pointer",
-                !annual
-                  ? "bg-[var(--text-primary)] text-white shadow-[0_2px_8px_rgba(15,23,41,0.15)]"
-                  : "bg-transparent text-[var(--text-secondary)]",
-              ].join(" ")}
-            >
-              Monthly
-            </button>
-            <button
-              onClick={() => setAnnual(true)}
-              className={[
-                "flex items-center gap-2 rounded-full border-none px-5 py-2.5 text-sm font-semibold transition-all duration-200 cursor-pointer",
-                annual
-                  ? "bg-[var(--text-primary)] text-white shadow-[0_2px_8px_rgba(15,23,41,0.15)]"
-                  : "bg-transparent text-[var(--text-secondary)]",
-              ].join(" ")}
-            >
-              Annual
-              <span className="rounded-full bg-[var(--brand)] px-2 py-[2px] text-[11px] font-bold text-white">
-                Save 20%
-              </span>
-            </button>
+          {/* Toggle */}
+          <div className="reveal inline-flex bg-white border border-border rounded-full p-1">
+            {[
+              { label: "Monthly", val: false },
+              { label: "Annual", val: true, badge: "Save 20%" },
+            ].map(({ label, val, badge }) => (
+              <button
+                key={label}
+                onClick={() => setAnnual(val)}
+                className={`flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold transition-all ${
+                  annual === val 
+                    ? "bg-primary text-white" 
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {label}
+                {badge && (
+                  <span className={`text-[10px] px-2 py-0.5 rounded-full ${
+                    annual === val ? "bg-white/20 text-white" : "bg-primary text-white"
+                  }`}>
+                    {badge}
+                  </span>
+                )}
+              </button>
+            ))}
           </div>
-        </Reveal>
-      </div>
+        </div>
 
-      <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-3">
-        {PLANS.map((plan, i) => (
-          <PricingCard
-            key={plan.name}
-            plan={plan}
-            annual={annual}
-            delay={i * 0.12}
-          />
-        ))}
-      </div>
+        <div className="grid md:grid-cols-3 gap-6 items-start">
+          {PLANS.map((plan, i) => {
+            const price = annual ? plan.price.yr : plan.price.mo;
+            return (
+              <div
+                key={plan.name}
+                className={`reveal relative rounded-3xl overflow-hidden ${
+                  plan.featured
+                    ? "bg-foreground text-white scale-105 shadow-2xl z-10"
+                    : "bg-white border border-border"
+                }`}
+                style={{ transitionDelay: `${i * 100}ms` }}
+              >
+                {plan.badge && (
+                  <div className="absolute top-6 right-6 bg-primary text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wide">
+                    {plan.badge}
+                  </div>
+                )}
 
-      <Reveal delay={0.3}>
-        <p className="mt-10 text-center text-[13px] leading-relaxed text-[var(--text-secondary)]">
-          All paid plans include a 7-day free trial. No credit card required to
-          start. Cancel anytime.
+                <div className="p-8">
+                  <div className={`text-xs font-bold tracking-[0.2em] uppercase mb-3 ${
+                    plan.featured ? "text-primary" : "text-muted-foreground"
+                  }`}>
+                    {plan.name}
+                  </div>
+
+                  <div className="flex items-end gap-1 mb-2">
+                    <span className="font-serif font-bold text-5xl">
+                      {price === 0 ? "Free" : `$${price}`}
+                    </span>
+                    {price > 0 && (
+                      <span className={`text-sm mb-2 ${plan.featured ? "text-white/60" : "text-muted-foreground"}`}>
+                        /mo
+                      </span>
+                    )}
+                  </div>
+                  {annual && price > 0 && (
+                    <div className={`text-xs mb-4 ${plan.featured ? "text-white/50" : "text-muted-foreground"}`}>
+                      Billed ${(price * 12).toFixed(0)}/year
+                    </div>
+                  )}
+
+                  <p className={`text-sm leading-relaxed mb-6 ${
+                    plan.featured ? "text-white/70" : "text-muted-foreground"
+                  }`}>
+                    {plan.desc}
+                  </p>
+
+                  <div className={`h-px mb-6 ${plan.featured ? "bg-white/10" : "bg-border"}`} />
+
+                  <ul className="space-y-3 mb-8">
+                    {plan.features.map((f) => (
+                      <li key={f.t} className="flex items-center gap-3">
+                        <span className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 ${
+                          f.ok
+                            ? plan.featured
+                              ? "bg-primary text-white"
+                              : "bg-primary/10 text-primary"
+                            : plan.featured
+                              ? "bg-white/10 text-white/30"
+                              : "bg-muted text-muted-foreground/50"
+                        }`}>
+                          {f.ok ? <Check /> : <span className="w-2 h-0.5 bg-current rounded" />}
+                        </span>
+                        <span className={`text-sm ${
+                          f.ok
+                            ? plan.featured ? "text-white" : "text-foreground"
+                            : plan.featured ? "text-white/40" : "text-muted-foreground"
+                        }`}>
+                          {f.t}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <a
+                    href="#download"
+                    className={`block text-center py-3.5 rounded-full text-sm font-semibold transition-all hover:scale-105 ${
+                      plan.featured
+                        ? "bg-white text-foreground hover:shadow-lg"
+                        : "bg-foreground text-white hover:bg-foreground/90"
+                    }`}
+                  >
+                    {plan.cta}
+                  </a>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <p className="reveal text-center text-xs text-muted-foreground mt-10">
+          All paid plans include a 7-day free trial. No credit card required.
         </p>
-      </Reveal>
+      </div>
     </section>
   );
 }
 
-/* ══════════════════════════════════════════════════════════════════════════════
-   FAQ
-══════════════════════════════════════════════════════════════════════════════ */
+/* ─── FAQ ────────────────────────────────────────────────────────────────────── */
 function FAQ() {
-  const [open, setOpen] = useState<number | null>(0);
+  const [open, setOpen] = useState(0);
   const items = [
-    {
-      q: "Is DateFlix free to use?",
-      a: "Yes! DateFlix is free to download and use. We offer a premium plan with unlimited swipes, advanced AI recommendations, and exclusive couple features for $4.99/month.",
-    },
-    {
-      q: "How does movie matching work?",
-      a: 'Both partners swipe through movies independently. When you both swipe right on the same movie, you get an instant "It\'s a Match!" notification. No coordination needed — it\'s delightfully simple.',
-    },
-    {
-      q: "Which streaming services does DateFlix support?",
-      a: "DateFlix shows you where each matched movie is available — Netflix, Disney+, Prime Video, Apple TV+, and more. We work with what you already have.",
-    },
-    {
-      q: "Does it work for long-distance couples?",
-      a: "Absolutely. DateFlix was designed with long-distance couples in mind. You can swipe from anywhere in the world and your matches sync instantly.",
-    },
+    { q: "Is DateFlix free to use?", a: "Yes! DateFlix is free to download and use. We offer a premium plan with unlimited swipes, advanced AI recommendations, and exclusive couple features for $4.99/month." },
+    { q: "How does movie matching work?", a: "Both partners swipe through movies independently. When you both swipe right on the same movie, you get an instant \"It's a Match!\" notification. No coordination needed — it's delightfully simple." },
+    { q: "Which streaming services does DateFlix support?", a: "DateFlix shows you where each matched movie is available — Netflix, Disney+, Prime Video, Apple TV+, and more. We work with what you already have." },
+    { q: "Does it work for long-distance couples?", a: "Absolutely. DateFlix was designed with long-distance couples in mind. You can swipe from anywhere in the world and your matches sync instantly." },
+    { q: "How accurate are the AI recommendations?", a: "Our AI analyzes both partners' swipe patterns, genre preferences, and watch history to surface films you'll both likely enjoy. Most couples report finding their match within the first 5 swipes." },
   ];
 
   return (
-    <section id="faq" className="bg-section-soft">
-      <div className="mx-auto max-w-[720px] px-6 py-28 lg:py-36">
-        <Reveal>
-          <span className="mb-3 block text-xs font-bold uppercase tracking-[4px] text-[var(--brand)] font-sans">
+    <section id="faq" className="py-24 lg:py-32 bg-white">
+      <div className="max-w-2xl mx-auto px-6">
+        <div className="text-center mb-14">
+          <span className="reveal inline-block text-xs font-bold tracking-[0.25em] uppercase text-primary mb-4">
             FAQ
           </span>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <h2
-            className="mb-12 font-serif font-black leading-[1.05] tracking-tight text-[var(--text-primary)]"
-            style={{ fontSize: "clamp(34px, 4.5vw, 52px)" }}
-          >
-            Frequently Asked Questions
+          <h2 className="reveal font-serif font-bold text-4xl md:text-5xl text-foreground leading-tight">
+            Frequently Asked{" "}
+            <em className="text-primary not-italic">Questions.</em>
           </h2>
-        </Reveal>
+        </div>
 
-        <div className="rounded-3xl border border-[var(--border)] bg-white overflow-hidden shadow-[0_2px_16px_rgba(15,23,41,0.03)]">
+        <div className="reveal bg-muted/30 rounded-3xl overflow-hidden border border-border">
           {items.map((item, i) => (
-            <div
-              key={i}
-              className={i < items.length - 1 ? "border-b border-[var(--border)]" : ""}
-            >
+            <div key={i} className={`${i < items.length - 1 ? "border-b border-border" : ""}`}>
               <button
-                onClick={() => setOpen(open === i ? null : i)}
-                className="flex w-full cursor-pointer items-center justify-between border-none bg-transparent px-8 py-6 text-left"
+                onClick={() => setOpen(open === i ? -1 : i)}
+                className="w-full flex items-center justify-between gap-4 p-6 text-left hover:bg-muted/50 transition-colors"
               >
-                <span className="text-[16px] font-bold tracking-tight text-[var(--text-primary)]">
-                  {item.q}
-                </span>
-                <span
-                  className="ml-4 flex shrink-0 items-center justify-center w-8 h-8 rounded-full bg-[var(--surface)] text-[var(--brand)] transition-transform duration-300 text-lg font-light"
-                  style={{
-                    transform: open === i ? "rotate(45deg)" : "none",
-                  }}
-                >
+                <span className="font-semibold text-foreground">{item.q}</span>
+                <span className={`w-7 h-7 rounded-full bg-white border border-border flex items-center justify-center text-primary text-lg flex-shrink-0 transition-transform ${
+                  open === i ? "rotate-45" : ""
+                }`}>
                   +
                 </span>
               </button>
-              <div
-                className="overflow-hidden transition-all duration-300 ease-in-out"
-                style={{
-                  maxHeight: open === i ? 200 : 0,
-                  paddingBottom: open === i ? 24 : 0,
-                }}
-              >
-                <p className="px-8 text-[15px] leading-relaxed text-[var(--text-secondary)]">
+              <div className={`overflow-hidden transition-all duration-300 ${
+                open === i ? "max-h-48 pb-6" : "max-h-0"
+              }`}>
+                <p className="px-6 text-muted-foreground leading-relaxed">
                   {item.a}
                 </p>
               </div>
@@ -1263,115 +917,136 @@ function FAQ() {
   );
 }
 
-/* ══════════════════════════════════════════════════════════════════════════════
-   CTA BAND
-══════════════════════════════════════════════════════════════════════════════ */
-function CTABand() {
+/* ─── CTA ────────────────────────────────────────────────────────────────────── */
+function CTA() {
   return (
-    <div id="download" className="mx-auto mb-28 max-w-[1100px] px-6">
-      <Reveal>
-        <div className="relative overflow-hidden rounded-[40px] border border-[var(--border)] bg-cta-gradient px-8 lg:px-16 py-20 lg:py-24 text-center shadow-[0_4px_32px_rgba(15,23,41,0.04)]">
-          <div
-            className="pointer-events-none absolute -top-[120px] left-1/2 h-[400px] w-[600px] -translate-x-1/2"
-            style={{
-              background:
-                "radial-gradient(ellipse, rgba(229,9,20,0.06), transparent 70%)",
-            }}
-          />
-          <h2
-            className="relative mb-5 font-serif font-black leading-[1.05] tracking-tight text-[var(--text-primary)]"
-            style={{ fontSize: "clamp(34px, 4.5vw, 60px)" }}
-          >
-            Start your first{" "}
-            <span className="text-[var(--brand)]">movie match tonight.</span>
-          </h2>
-          <p className="relative mb-11 text-lg text-[var(--text-secondary)]">
-            Free to download. No credit card required. Just two people and a love
-            of movies.
-          </p>
-          <div className="relative flex flex-wrap justify-center gap-4">
-            <a
-              href="#"
-              className="store-btn flex items-center gap-3.5 rounded-2xl bg-[var(--text-primary)] px-7 py-4
-                         text-white no-underline shadow-[0_8px_32px_rgba(15,23,41,0.18)]"
-            >
-              <AppleIcon className="w-7 h-7" />
-              <div className="text-left">
-                <div className="mb-0.5 text-[11px] font-normal opacity-70 leading-tight">
-                  Download on the
+    <section id="download" className="py-20 px-6">
+      <div className="max-w-5xl mx-auto">
+        <div className="reveal relative rounded-[2.5rem] overflow-hidden">
+          {/* Background Image */}
+          <div className="absolute inset-0">
+            <Image
+              src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=1600&h=800&fit=crop"
+              alt="Cinema"
+              fill
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-foreground/85" />
+          </div>
+
+          {/* Content */}
+          <div className="relative z-10 text-center py-20 lg:py-28 px-8">
+            <div className="inline-flex items-center gap-2 mb-8 bg-white/10 backdrop-blur-sm border border-white/10 rounded-full px-4 py-2">
+              <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+              <span className="text-sm text-white/80 font-medium">Free to Download</span>
+            </div>
+
+            <h2 className="font-serif font-bold text-4xl md:text-5xl lg:text-6xl text-white leading-tight mb-6 max-w-2xl mx-auto text-balance">
+              Start your first{" "}
+              <em className="text-primary not-italic">movie match tonight.</em>
+            </h2>
+
+            <p className="text-lg text-white/70 max-w-md mx-auto mb-10">
+              Free to download. Just two people and a love of movies.
+            </p>
+
+            <div className="flex flex-wrap gap-4 justify-center">
+              <a
+                href="#"
+                className="flex items-center gap-4 bg-white text-foreground px-7 py-4 rounded-2xl hover:bg-white/95 transition-all hover:scale-105 hover:shadow-2xl"
+              >
+                <Apple />
+                <div className="text-left">
+                  <div className="text-[10px] text-muted-foreground font-medium">Download on the</div>
+                  <div className="text-sm font-semibold">App Store</div>
                 </div>
-                <div className="text-[15px] font-semibold leading-tight">App Store</div>
-              </div>
-            </a>
-            <a
-              href="#"
-              className="store-btn flex items-center gap-3.5 rounded-2xl bg-[var(--text-primary)] px-7 py-4
-                         text-white no-underline shadow-[0_8px_32px_rgba(15,23,41,0.18)]"
-            >
-              <GooglePlayIcon className="w-7 h-7" />
-              <div className="text-left">
-                <div className="mb-0.5 text-[11px] font-normal opacity-70 leading-tight">
-                  Get it on
+              </a>
+              <a
+                href="#"
+                className="flex items-center gap-4 bg-white/10 backdrop-blur-sm text-white border border-white/20 px-7 py-4 rounded-2xl hover:bg-white/20 transition-all hover:scale-105"
+              >
+                <GooglePlay />
+                <div className="text-left">
+                  <div className="text-[10px] text-white/60 font-medium">Get it on</div>
+                  <div className="text-sm font-semibold">Google Play</div>
                 </div>
-                <div className="text-[15px] font-semibold leading-tight">Google Play</div>
-              </div>
-            </a>
+              </a>
+            </div>
           </div>
         </div>
-      </Reveal>
-    </div>
+      </div>
+    </section>
   );
 }
 
-/* ══════════════════════════════════════════════════════════════════════════════
-   FOOTER
-══════════════════════════════════════════════════════════════════════════════ */
+/* ─── FOOTER ─────────────────────────────────────────────────────────────────── */
 function Footer() {
   return (
-    <footer className="border-t border-[var(--border)] bg-white">
-      <div className="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-5 px-6 lg:px-10 py-10">
-        <span className="text-xl font-bold text-[var(--text-primary)] font-serif">
-          Date<span className="text-[var(--brand)]">Flix</span>
-        </span>
-        <div className="flex flex-wrap gap-8">
-          {["Privacy Policy", "Terms of Service", "Contact", "Blog"].map(
-            (l) => (
-              <a
-                key={l}
-                href="#"
-                className="text-[13px] font-medium text-[var(--text-secondary)] no-underline transition-colors hover:text-[var(--text-primary)]"
-              >
-                {l}
-              </a>
-            )
-          )}
+    <footer className="border-t border-border bg-muted/30">
+      <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-6">
+        {/* Logo */}
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+            <Heart className="w-4 h-4 text-white" />
+          </div>
+          <span className="font-serif font-bold text-lg text-foreground">
+            Duo<span className="text-primary">App</span>
+          </span>
         </div>
-        <div className="mt-4 w-full text-center text-xs text-[var(--text-muted)]">
-          {"© 2025 DateFlix. Made with love for couples everywhere."}
+
+        {/* Links */}
+        <div className="flex gap-8">
+          {["Privacy Policy", "Terms of Service", "Contact"].map((l) => (
+            <a
+              key={l}
+              href="#"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {l}
+            </a>
+          ))}
         </div>
+
+        {/* Copyright */}
+        <p className="text-xs text-muted-foreground">
+          © 2026 DuoApp. Made with <span className="text-primary">♥</span> for couples everywhere.
+        </p>
       </div>
     </footer>
   );
 }
 
-/* ══════════════════════════════════════════════════════════════════════════════
-   ROOT
-══════════════════════════════════════════════════════════════════════════════ */
+/* ─── MAIN PAGE ──────────────────────────────────────────────────────────────── */
 export default function DateFlixLanding() {
   useScrollReveal();
+
   return (
-    <div className="min-h-screen bg-[var(--background)]">
-      <Nav />
-      <Hero />
-      <Ticker />
-      <HowItWorks />
-      <StatsBand />
-      <Features />
-      <Testimonials />
-      <Pricing />
-      <FAQ />
-      <CTABand />
-      <Footer />
-    </div>
+    <>
+      <style jsx global>{`
+        .reveal {
+          opacity: 0;
+          transform: translateY(24px);
+          transition: opacity 0.7s cubic-bezier(0.22, 0.68, 0, 1.2), transform 0.7s cubic-bezier(0.22, 0.68, 0, 1.2);
+        }
+        .reveal.in {
+          opacity: 1;
+          transform: none;
+        }
+      `}</style>
+      
+      <main className="min-h-screen bg-background">
+        <Nav />
+        <Hero />
+        <Ticker />
+        <HowItWorks />
+        <Stats />
+        <Features />
+        <Testimonials />
+        <Pricing />
+        <FAQ />
+        <CTA />
+        <Footer />
+      </main>
+    </>
   );
 }

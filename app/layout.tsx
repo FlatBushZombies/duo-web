@@ -16,8 +16,8 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
-  title: 'DateFlix - Watch Together, Choose Together',
-  description: 'DateFlix matches you and your partner on movies you\'ll both love. Swipe, match, and enjoy the perfect movie night, every time.',
+  title: 'Duo | Download & Watch Together',
+  description: 'Duo matches you and your partner on movies you\'ll both love. Swipe, match, and enjoy the perfect movie night, every time.',
   icons: {
     icon: [
       {
