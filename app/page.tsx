@@ -4,6 +4,11 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Nav from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import HowItWorks from "@/components/HowItWorks";
+import { Stats } from "@/components/Stats";
+import { Features } from "@/components/Features";
+import { Testimonials } from "@/components/Testimonials";
+import { Pricing } from "@/components/Pricing";
 
 /* ─── SCROLL REVEAL HOOK ───────────────────────────────────────────────────── */
 function useScrollReveal() {
@@ -118,23 +123,43 @@ function MovieCard({
 }
 
 
-
-
-
 /* ─── BRANDS TICKER ──────────────────────────────────────────────────────────── */
 function Ticker() {
-  const items = ["Swipe to Match", "Couples Movie Nights", "AI Recommendations", "Real-Time Sync", "Every Genre", "2.1M Couples", "No More Arguments", "Find Tonight&apos;s Film"];
-  
+  const items = [
+    "Swipe to Match",
+    "Couples Movie Nights",
+    "AI Recommendations",
+    "Real-Time Sync",
+    "Every Genre",
+    "2.1M Couples",
+    "No More Arguments",
+    "Find Tonight's Film"
+  ];
+
   return (
-    <div className="py-6 border-y border-border bg-muted/30 overflow-hidden">
-      <div className="flex animate-[ticker_30s_linear_infinite]">
+    <div className="py-10 overflow-hidden bg-[#f6f7f9]">
+
+      <div className="flex animate-[ticker_35s_linear_infinite] items-center">
+
         {[...items, ...items, ...items, ...items].map((item, i) => (
-          <span key={i} className="flex items-center gap-4 px-8 text-sm font-medium text-muted-foreground whitespace-nowrap">
-            {item.replace("&apos;", "'")}
-            <span className="text-primary/40">◆</span>
-          </span>
+
+          <div
+            key={i}
+            className="flex items-center gap-4 px-5 py-2.5 mx-3 rounded-xl border-2 border-black bg-white whitespace-nowrap shadow-[3px_4px_0px_black]"
+          >
+            <span className="text-sm font-medium text-black">
+              {item}
+            </span>
+
+            {/* Diamond */}
+            <span className="text-primary text-sm">◆</span>
+          </div>
+
         ))}
+
       </div>
+
+      {/* Animation */}
       <style jsx>{`
         @keyframes ticker {
           from { transform: translateX(0); }
@@ -145,492 +170,8 @@ function Ticker() {
   );
 }
 
-/* ─── HOW IT WORKS ───────────────────────────────────────────────────────────── */
-function HowItWorks() {
-  const steps = [
-    {
-      n: "01",
-      title: "Connect Your Partner",
-      body: "Create your couple profile and link in seconds. A shared code — zero friction.",
-      image: "https://images.unsplash.com/photo-1522556189639-b150ed9c4330?w=600&h=400&fit=crop",
-    },
-    {
-      n: "02",
-      title: "Swipe Independently",
-      body: "Each partner swipes through a curated feed built around your individual taste.",
-      image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=400&fit=crop",
-    },
-    {
-      n: "03",
-      title: "Watch What You Love",
-      body: "Both swipe right on the same film — instant match notification. Press play.",
-      image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=600&h=400&fit=crop",
-    },
-  ];
-
-  return (
-    <section id="how-it-works" className="py-24 lg:py-32 bg-white">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <span className="reveal inline-block text-xs font-bold tracking-[0.25em] uppercase text-primary mb-4">
-            How It Works
-          </span>
-          <h2 className="reveal font-serif font-bold text-4xl md:text-5xl lg:text-6xl text-foreground leading-tight mb-6 text-balance">
-            Three steps to your{" "}
-            <em className="text-primary not-italic">perfect night in.</em>
-          </h2>
-          <p className="reveal text-lg text-muted-foreground max-w-md mx-auto">
-            No more scrolling for 45 minutes. DateFlix makes the decision delightfully simple.
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-8">
-          {steps.map((step, i) => (
-            <div 
-              key={step.n} 
-              className="reveal group relative bg-muted/30 rounded-3xl overflow-hidden border border-border hover:border-primary/30 hover:shadow-xl transition-all duration-500"
-              style={{ transitionDelay: `${i * 100}ms` }}
-            >
-              {/* Image */}
-              <div className="relative h-52 overflow-hidden">
-                <Image
-                  src={step.image}
-                  alt={step.title}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-white via-white/50 to-transparent" />
-              </div>
-
-              {/* Content */}
-              <div className="relative p-8 -mt-12">
-                <div className="w-14 h-14 rounded-2xl bg-primary flex items-center justify-center text-white font-serif font-bold text-lg mb-6 shadow-lg">
-                  {step.n}
-                </div>
-                <h3 className="font-serif font-bold text-xl text-foreground mb-3">
-                  {step.title}
-                </h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  {step.body}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ─── STATS ───────────────────────────────────────────────────────────────────── */
-function Stats() {
-  const stats = [
-    { num: "2.1M", label: "Couples using DateFlix" },
-    { num: "18M+", label: "Movies matched & watched" },
-    { num: "4.9★", label: "Average App Store rating" },
-  ];
-  
-  return (
-    <div className="max-w-5xl mx-auto px-6 -mt-1">
-      <div className="reveal bg-foreground rounded-3xl p-10 lg:p-14">
-        <div className="grid md:grid-cols-3 gap-10 text-center">
-          {stats.map((s, i) => (
-            <div key={i}>
-              <div className="font-serif font-bold text-5xl lg:text-6xl text-white mb-2">
-                {s.num}
-              </div>
-              <div className="text-white/60 text-sm font-medium">{s.label}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ─── FEATURES ──────────────────────────────────────────────────────────────── */
-function Features() {
-  const features = [
-    {
-      label: "Smart Matching",
-      title: "Swipe, match, never argue again.",
-      body: "Our Tinder-style swiping experience means both of you decide what to watch — without endless scrolling or guilty compromises.",
-      image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&h=600&fit=crop",
-      tags: ["Real-time sync", "Instant alerts", "Match history"],
-    },
-    {
-      label: "AI Recommendations",
-      title: "Learns your couple&apos;s unique taste.",
-      body: "The more you swipe, the smarter DateFlix gets. Our AI builds a shared taste profile for your relationship.",
-      image: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=800&h=600&fit=crop",
-      tags: ["Machine learning", "Genre analysis", "Mood-based picks"],
-    },
-    {
-      label: "Cross-Platform",
-      title: "Always in sync, wherever you are.",
-      body: "Long distance or side by side — DateFlix keeps your movies and matches synced across every device in real time.",
-      image: "https://images.unsplash.com/photo-1512070679279-8988d32161be?w=800&h=600&fit=crop",
-      tags: ["iCloud Sync", "Cross-device", "Offline mode"],
-    },
-  ];
-
-  return (
-    <section id="features" className="py-24 lg:py-32 bg-muted/20">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="text-center mb-20">
-          <span className="reveal inline-block text-xs font-bold tracking-[0.25em] uppercase text-primary mb-4">
-            Features
-          </span>
-          <h2 className="reveal font-serif font-bold text-4xl md:text-5xl lg:text-6xl text-foreground leading-tight text-balance">
-            Built for couples who{" "}
-            <em className="text-primary not-italic">love cinema.</em>
-          </h2>
-        </div>
-
-        <div className="space-y-24">
-          {features.map((f, i) => (
-            <div 
-              key={i} 
-              className={`reveal grid lg:grid-cols-2 gap-12 items-center ${i % 2 === 1 ? "lg:flex-row-reverse" : ""}`}
-            >
-              {/* Image */}
-              <div className={`relative ${i % 2 === 1 ? "lg:order-2" : ""}`}>
-                <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl">
-                  <Image
-                    src={f.image}
-                    alt={f.title}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                
-                {/* Floating movie cards for first feature */}
-                {i === 0 && (
-                  <>
-                    <div className="absolute -bottom-6 -left-6 hidden lg:block">
-                      <MovieCard
-                        title="Dune"
-                        year="2021"
-                        rating="8.0"
-                        genre="Sci-Fi"
-                        image="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=400&h=600&fit=crop"
-                        rotation={-5}
-                        scale={0.7}
-                      />
-                    </div>
-                    <div className="absolute -top-4 -right-4 hidden lg:block">
-                      <MovieCard
-                        title="Interstellar"
-                        year="2014"
-                        rating="8.6"
-                        genre="Sci-Fi"
-                        image="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=400&h=600&fit=crop"
-                        rotation={8}
-                        scale={0.65}
-                        isMatch
-                      />
-                    </div>
-                  </>
-                )}
-              </div>
-
-              {/* Content */}
-              <div className={i % 2 === 1 ? "lg:order-1" : ""}>
-                <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase text-primary mb-4">
-                  {f.label}
-                </span>
-                <h3 className="font-serif font-bold text-3xl md:text-4xl text-foreground leading-tight mb-5">
-                  {f.title.replace("&apos;", "'")}
-                </h3>
-                <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-                  {f.body}
-                </p>
-                <div className="flex flex-wrap gap-3">
-                  {f.tags.map(t => (
-                    <span key={t} className="px-4 py-2 bg-white border border-border rounded-full text-sm font-medium text-muted-foreground">
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 /* ─── TESTIMONIALS ──────────────────────────────────────────────────────────── */
-function Testimonials() {
-  const reviews = [
-    {
-      stars: 5,
-      quote: "We used to spend 45 minutes arguing about what to watch. DateFlix solved that completely. Now it's the best part of our Friday night.",
-      name: "Sarah & Jake",
-      meta: "Together 3 years · 214 movies matched",
-      image: "https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?w=200&h=200&fit=crop",
-    },
-    {
-      stars: 5,
-      quote: "Long-distance and DateFlix is what keeps our movie nights alive. We swipe from different countries and enjoy films together.",
-      name: "Marcus & Léa",
-      meta: "Long distance · 89 movies matched",
-      image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&h=200&fit=crop",
-    },
-    {
-      stars: 5,
-      quote: "The AI learned we both secretly love terrible horror movies. No judgment, just matches. We're completely obsessed.",
-      name: "Priya & Daniel",
-      meta: "Newlyweds · 56 movies matched",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop",
-    },
-  ];
-
-  return (
-    <section className="py-24 lg:py-32 bg-white">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <span className="reveal inline-block text-xs font-bold tracking-[0.25em] uppercase text-primary mb-4">
-            Couples Love It
-          </span>
-          <h2 className="reveal font-serif font-bold text-4xl md:text-5xl lg:text-6xl text-foreground leading-tight text-balance">
-            Real reviews from{" "}
-            <em className="text-primary not-italic">real movie nights.</em>
-          </h2>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-8">
-          {reviews.map((r, i) => (
-            <div 
-              key={i} 
-              className="reveal bg-muted/30 rounded-3xl p-8 border border-border hover:border-primary/20 hover:shadow-xl transition-all duration-500"
-              style={{ transitionDelay: `${i * 100}ms` }}
-            >
-              {/* Stars */}
-              <div className="flex gap-1 mb-6">
-                {Array.from({ length: r.stars }).map((_, j) => (
-                  <Star key={j} className="w-5 h-5 text-amber-400" />
-                ))}
-              </div>
-
-              {/* Quote */}
-              <p className="text-foreground leading-relaxed mb-8 text-lg">
-                &ldquo;{r.quote}&rdquo;
-              </p>
-
-              {/* Author */}
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full overflow-hidden">
-                  <Image src={r.image} alt={r.name} width={48} height={48} className="object-cover" />
-                </div>
-                <div>
-                  <div className="font-semibold text-foreground">{r.name}</div>
-                  <div className="text-xs text-muted-foreground">{r.meta}</div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ─── PRICING ──────────────────────────────────────────────────────────────── */
-const PLANS = [
-  {
-    name: "Free",
-    price: { mo: 0, yr: 0 },
-    desc: "Everything you need to start matching movies with your partner.",
-    cta: "Get Started Free",
-    featured: false,
-    features: [
-      { t: "Up to 20 swipes/day", ok: true },
-      { t: "Basic movie matching", ok: true },
-      { t: "Match history (last 10)", ok: true },
-      { t: "iOS & Android app", ok: true },
-      { t: "AI recommendations", ok: false },
-      { t: "Unlimited swipes", ok: false },
-    ],
-  },
-  {
-    name: "Couple",
-    price: { mo: 4.99, yr: 3.99 },
-    desc: "The full DateFlix experience for couples who love movies.",
-    cta: "Start Free Trial",
-    featured: true,
-    badge: "Most Popular",
-    features: [
-      { t: "Unlimited swipes", ok: true },
-      { t: "Advanced matching", ok: true },
-      { t: "Full match history", ok: true },
-      { t: "AI recommendations", ok: true },
-      { t: "Streaming availability", ok: true },
-      { t: "Priority support", ok: true },
-    ],
-  },
-  {
-    name: "Cinephile",
-    price: { mo: 9.99, yr: 7.99 },
-    desc: "For couples who take their movie nights seriously.",
-    cta: "Go Cinephile",
-    featured: false,
-    features: [
-      { t: "Everything in Couple", ok: true },
-      { t: "Curated watchlists", ok: true },
-      { t: "Director & actor filters", ok: true },
-      { t: "Date night planner", ok: true },
-      { t: "Early access features", ok: true },
-      { t: "Dedicated support", ok: true },
-    ],
-  },
-];
-
-function Pricing() {
-  const [annual, setAnnual] = useState(false);
-
-  return (
-    <section id="pricing" className="py-24 lg:py-32 bg-muted/20">
-      <div className="max-w-5xl mx-auto px-6">
-        <div className="text-center mb-14">
-          <span className="reveal inline-block text-xs font-bold tracking-[0.25em] uppercase text-primary mb-4">
-            Pricing
-          </span>
-          <h2 className="reveal font-serif font-bold text-4xl md:text-5xl lg:text-6xl text-foreground leading-tight mb-5 text-balance">
-            Simple pricing,{" "}
-            <em className="text-primary not-italic">start for free.</em>
-          </h2>
-          <p className="reveal text-lg text-muted-foreground max-w-md mx-auto mb-8">
-            No hidden fees. Cancel anytime. Your first movie night is on us.
-          </p>
-
-          {/* Toggle */}
-          <div className="reveal inline-flex bg-white border border-border rounded-full p-1">
-            {[
-              { label: "Monthly", val: false },
-              { label: "Annual", val: true, badge: "Save 20%" },
-            ].map(({ label, val, badge }) => (
-              <button
-                key={label}
-                onClick={() => setAnnual(val)}
-                className={`flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold transition-all ${
-                  annual === val 
-                    ? "bg-primary text-white" 
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {label}
-                {badge && (
-                  <span className={`text-[10px] px-2 py-0.5 rounded-full ${
-                    annual === val ? "bg-white/20 text-white" : "bg-primary text-white"
-                  }`}>
-                    {badge}
-                  </span>
-                )}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="grid md:grid-cols-3 gap-6 items-start">
-          {PLANS.map((plan, i) => {
-            const price = annual ? plan.price.yr : plan.price.mo;
-            return (
-              <div
-                key={plan.name}
-                className={`reveal relative rounded-3xl overflow-hidden ${
-                  plan.featured
-                    ? "bg-foreground text-white scale-105 shadow-2xl z-10"
-                    : "bg-white border border-border"
-                }`}
-                style={{ transitionDelay: `${i * 100}ms` }}
-              >
-                {plan.badge && (
-                  <div className="absolute top-6 right-6 bg-primary text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wide">
-                    {plan.badge}
-                  </div>
-                )}
-
-                <div className="p-8">
-                  <div className={`text-xs font-bold tracking-[0.2em] uppercase mb-3 ${
-                    plan.featured ? "text-primary" : "text-muted-foreground"
-                  }`}>
-                    {plan.name}
-                  </div>
-
-                  <div className="flex items-end gap-1 mb-2">
-                    <span className="font-serif font-bold text-5xl">
-                      {price === 0 ? "Free" : `$${price}`}
-                    </span>
-                    {price > 0 && (
-                      <span className={`text-sm mb-2 ${plan.featured ? "text-white/60" : "text-muted-foreground"}`}>
-                        /mo
-                      </span>
-                    )}
-                  </div>
-                  {annual && price > 0 && (
-                    <div className={`text-xs mb-4 ${plan.featured ? "text-white/50" : "text-muted-foreground"}`}>
-                      Billed ${(price * 12).toFixed(0)}/year
-                    </div>
-                  )}
-
-                  <p className={`text-sm leading-relaxed mb-6 ${
-                    plan.featured ? "text-white/70" : "text-muted-foreground"
-                  }`}>
-                    {plan.desc}
-                  </p>
-
-                  <div className={`h-px mb-6 ${plan.featured ? "bg-white/10" : "bg-border"}`} />
-
-                  <ul className="space-y-3 mb-8">
-                    {plan.features.map((f) => (
-                      <li key={f.t} className="flex items-center gap-3">
-                        <span className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 ${
-                          f.ok
-                            ? plan.featured
-                              ? "bg-primary text-white"
-                              : "bg-primary/10 text-primary"
-                            : plan.featured
-                              ? "bg-white/10 text-white/30"
-                              : "bg-muted text-muted-foreground/50"
-                        }`}>
-                          {f.ok ? <Check /> : <span className="w-2 h-0.5 bg-current rounded" />}
-                        </span>
-                        <span className={`text-sm ${
-                          f.ok
-                            ? plan.featured ? "text-white" : "text-foreground"
-                            : plan.featured ? "text-white/40" : "text-muted-foreground"
-                        }`}>
-                          {f.t}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <a
-                    href="#download"
-                    className={`block text-center py-3.5 rounded-full text-sm font-semibold transition-all hover:scale-105 ${
-                      plan.featured
-                        ? "bg-white text-foreground hover:shadow-lg"
-                        : "bg-foreground text-white hover:bg-foreground/90"
-                    }`}
-                  >
-                    {plan.cta}
-                  </a>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        <p className="reveal text-center text-xs text-muted-foreground mt-10">
-          All paid plans include a 7-day free trial. No credit card required.
-        </p>
-      </div>
-    </section>
-  );
-}
 
 /* ─── FAQ ────────────────────────────────────────────────────────────────────── */
 function FAQ() {
@@ -806,7 +347,7 @@ export default function DateFlixLanding() {
         <Nav />
         <Hero />
         <Ticker />
-        <HowItWorks />
+        <HowItWorks/>
         <Stats />
         <Features />
         <Testimonials />
