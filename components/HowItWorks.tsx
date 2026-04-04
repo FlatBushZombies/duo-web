@@ -42,7 +42,7 @@ export default function HowItWorks() {
           </h2>
 
           <p className="text-lg text-muted-foreground max-w-md mx-auto">
-            No more scrolling for 45 minutes. DateFlix makes the decision delightfully simple.
+            No more scrolling for 45 minutes. Duo makes the decision delightfully simple.
           </p>
         </div>
 

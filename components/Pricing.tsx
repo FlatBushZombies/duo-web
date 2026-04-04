@@ -25,7 +25,7 @@ export function Pricing() {
     {
       name: "Couple",
       price: { mo: 4.99, yr: 3.99 },
-      desc: "The full DateFlix experience for couples who love movies.",
+      desc: "The full Duo experience for couples who love movies.",
       cta: "Start Free Trial",
       featured: true,
       badge: "Most Popular",

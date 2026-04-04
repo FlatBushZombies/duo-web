@@ -9,6 +9,8 @@ import { Stats } from "@/components/Stats";
 import { Features } from "@/components/Features";
 import { Testimonials } from "@/components/Testimonials";
 import { Pricing } from "@/components/Pricing";
+import { CTA } from "@/components/CTA";
+import { FAQ } from "@/components/FAQ";
 
 /* ─── SCROLL REVEAL HOOK ───────────────────────────────────────────────────── */
 function useScrollReveal() {
@@ -171,122 +173,8 @@ function Ticker() {
 }
 
 
-/* ─── TESTIMONIALS ──────────────────────────────────────────────────────────── */
 
-/* ─── FAQ ────────────────────────────────────────────────────────────────────── */
-function FAQ() {
-  const [open, setOpen] = useState(0);
-  const items = [
-    { q: "Is DateFlix free to use?", a: "Yes! DateFlix is free to download and use. We offer a premium plan with unlimited swipes, advanced AI recommendations, and exclusive couple features for $4.99/month." },
-    { q: "How does movie matching work?", a: "Both partners swipe through movies independently. When you both swipe right on the same movie, you get an instant \"It's a Match!\" notification. No coordination needed — it's delightfully simple." },
-    { q: "Which streaming services does DateFlix support?", a: "DateFlix shows you where each matched movie is available — Netflix, Disney+, Prime Video, Apple TV+, and more. We work with what you already have." },
-    { q: "Does it work for long-distance couples?", a: "Absolutely. DateFlix was designed with long-distance couples in mind. You can swipe from anywhere in the world and your matches sync instantly." },
-    { q: "How accurate are the AI recommendations?", a: "Our AI analyzes both partners' swipe patterns, genre preferences, and watch history to surface films you'll both likely enjoy. Most couples report finding their match within the first 5 swipes." },
-  ];
 
-  return (
-    <section id="faq" className="py-24 lg:py-32 bg-white">
-      <div className="max-w-2xl mx-auto px-6">
-        <div className="text-center mb-14">
-          <span className="reveal inline-block text-xs font-bold tracking-[0.25em] uppercase text-primary mb-4">
-            FAQ
-          </span>
-          <h2 className="reveal font-serif font-bold text-4xl md:text-5xl text-foreground leading-tight">
-            Frequently Asked{" "}
-            <em className="text-primary not-italic">Questions.</em>
-          </h2>
-        </div>
-
-        <div className="reveal bg-muted/30 rounded-3xl overflow-hidden border border-border">
-          {items.map((item, i) => (
-            <div key={i} className={`${i < items.length - 1 ? "border-b border-border" : ""}`}>
-              <button
-                onClick={() => setOpen(open === i ? -1 : i)}
-                className="w-full flex items-center justify-between gap-4 p-6 text-left hover:bg-muted/50 transition-colors"
-              >
-                <span className="font-semibold text-foreground">{item.q}</span>
-                <span className={`w-7 h-7 rounded-full bg-white border border-border flex items-center justify-center text-primary text-lg flex-shrink-0 transition-transform ${
-                  open === i ? "rotate-45" : ""
-                }`}>
-                  +
-                </span>
-              </button>
-              <div className={`overflow-hidden transition-all duration-300 ${
-                open === i ? "max-h-48 pb-6" : "max-h-0"
-              }`}>
-                <p className="px-6 text-muted-foreground leading-relaxed">
-                  {item.a}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ─── CTA ────────────────────────────────────────────────────────────────────── */
-function CTA() {
-  return (
-    <section id="download" className="py-20 px-6">
-      <div className="max-w-5xl mx-auto">
-        <div className="reveal relative rounded-[2.5rem] overflow-hidden">
-          {/* Background Image */}
-          <div className="absolute inset-0">
-            <Image
-              src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=1600&h=800&fit=crop"
-              alt="Cinema"
-              fill
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-foreground/85" />
-          </div>
-
-          {/* Content */}
-          <div className="relative z-10 text-center py-20 lg:py-28 px-8">
-            <div className="inline-flex items-center gap-2 mb-8 bg-white/10 backdrop-blur-sm border border-white/10 rounded-full px-4 py-2">
-              <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              <span className="text-sm text-white/80 font-medium">Free to Download</span>
-            </div>
-
-            <h2 className="font-serif font-bold text-4xl md:text-5xl lg:text-6xl text-white leading-tight mb-6 max-w-2xl mx-auto text-balance">
-              Start your first{" "}
-              <em className="text-primary not-italic">movie match tonight.</em>
-            </h2>
-
-            <p className="text-lg text-white/70 max-w-md mx-auto mb-10">
-              Free to download. Just two people and a love of movies.
-            </p>
-
-            <div className="flex flex-wrap gap-4 justify-center">
-              <a
-                href="#"
-                className="flex items-center gap-4 bg-white text-foreground px-7 py-4 rounded-2xl hover:bg-white/95 transition-all hover:scale-105 hover:shadow-2xl"
-              >
-                <Apple />
-                <div className="text-left">
-                  <div className="text-[10px] text-muted-foreground font-medium">Download on the</div>
-                  <div className="text-sm font-semibold">App Store</div>
-                </div>
-              </a>
-              <a
-                href="#"
-                className="flex items-center gap-4 bg-white/10 backdrop-blur-sm text-white border border-white/20 px-7 py-4 rounded-2xl hover:bg-white/20 transition-all hover:scale-105"
-              >
-                <GooglePlay />
-                <div className="text-left">
-                  <div className="text-[10px] text-white/60 font-medium">Get it on</div>
-                  <div className="text-sm font-semibold">Google Play</div>
-                </div>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 /* ─── FOOTER ─────────────────────────────────────────────────────────────────── */
 function Footer() {
@@ -353,7 +241,7 @@ export default function DateFlixLanding() {
         <Testimonials />
         <Pricing />
         <FAQ />
-        <CTA />
+        <CTA/>
         <Footer />
       </main>
     </>
