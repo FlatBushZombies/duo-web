@@ -11,6 +11,7 @@ import { Testimonials } from "@/components/Testimonials";
 import { Pricing } from "@/components/Pricing";
 import { CTA } from "@/components/CTA";
 import { FAQ } from "@/components/FAQ";
+import { Footer } from "@/components/Footer";
 
 /* ─── SCROLL REVEAL HOOK ───────────────────────────────────────────────────── */
 function useScrollReveal() {
@@ -176,42 +177,7 @@ function Ticker() {
 
 
 
-/* ─── FOOTER ─────────────────────────────────────────────────────────────────── */
-function Footer() {
-  return (
-    <footer className="border-t border-border bg-muted/30">
-      <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-6">
-        {/* Logo */}
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-            <Heart className="w-4 h-4 text-white" />
-          </div>
-          <span className="font-serif font-bold text-lg text-foreground">
-            Duo<span className="text-primary">App</span>
-          </span>
-        </div>
 
-        {/* Links */}
-        <div className="flex gap-8">
-          {["Privacy Policy", "Terms of Service", "Contact"].map((l) => (
-            <a
-              key={l}
-              href="#"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              {l}
-            </a>
-          ))}
-        </div>
-
-        {/* Copyright */}
-        <p className="text-xs text-muted-foreground">
-          © 2026 DuoApp. Made with <span className="text-primary">♥</span> for couples everywhere.
-        </p>
-      </div>
-    </footer>
-  );
-}
 
 /* ─── MAIN PAGE ──────────────────────────────────────────────────────────────── */
 export default function DateFlixLanding() {

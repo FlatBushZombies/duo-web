@@ -7,7 +7,7 @@ export function Testimonials() {
   const reviews = [
     {
       stars: 5,
-      quote: "We used to spend 45 minutes arguing about what to watch. DateFlix solved that completely. Now it's the best part of our Friday night.",
+      quote: "We used to spend 45 minutes arguing about what to watch. Duo solved that completely. Now it's the best part of our Friday night.",
       name: "Sarah & Jake",
       meta: "Together 3 years · 214 movies matched",
       image: "https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?w=200&h=200&fit=crop",
@@ -15,7 +15,7 @@ export function Testimonials() {
     },
     {
       stars: 5,
-      quote: "Long-distance and DateFlix is what keeps our movie nights alive. We swipe from different countries and enjoy films together.",
+      quote: "Long-distance and Duo is what keeps our movie nights alive. We swipe from different countries and enjoy films together.",
       name: "Marcus & Léa",
       meta: "Long distance · 89 movies matched",
       image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&h=200&fit=crop",
