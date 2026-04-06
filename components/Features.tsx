@@ -1,7 +1,28 @@
 "use client"
 
 import Image from "next/image"
-import MovieCard from "./MovieCard";
+import MovieCard from "./MovieCard"
+import { Zap, Brain, Globe, Check, Clock, Layers } from "lucide-react"
+
+const TAG_ICONS: Record<string, React.ReactNode> = {
+  "Real-time sync":   <Zap        size={13} className="shrink-0" />,
+  "Instant alerts":   <Clock      size={13} className="shrink-0" />,
+  "Match history":    <Layers     size={13} className="shrink-0" />,
+  "Machine learning": <Brain      size={13} className="shrink-0" />,
+  "Genre analysis":   <Check      size={13} className="shrink-0" />,
+  "Mood-based picks": <Zap        size={13} className="shrink-0" />,
+  "iCloud Sync":      <Globe      size={13} className="shrink-0" />,
+  "Cross-device":     <Layers     size={13} className="shrink-0" />,
+  "Offline mode":     <Check      size={13} className="shrink-0" />,
+}
+
+const LABEL_ICONS: Record<string, React.ReactNode> = {
+  "Smart Matching":      <Zap   size={12} className="shrink-0" />,
+  "AI Recommendations":  <Brain size={12} className="shrink-0" />,
+  "Cross-Platform":      <Globe size={12} className="shrink-0" />,
+}
+
+
 
 export function Features() {
   const features = [
@@ -26,52 +47,53 @@ export function Features() {
       image: "https://images.unsplash.com/photo-1512070679279-8988d32161be?w=800&h=600&fit=crop",
       tags: ["iCloud Sync", "Cross-device", "Offline mode"],
     },
-  ];
+  ]
 
   return (
-    <section id="features" className="py-28 lg:py-36 bg-[#f6f7f9]">
+    <section id="features" className="py-28 lg:py-36 bg-white">
       <div className="max-w-6xl mx-auto px-6">
 
-        {/* Header */}
+        {/* ── Header ── */}
         <div className="text-center mb-24">
-          <span className="inline-block px-4 py-2 text-xs font-bold tracking-[0.25em] uppercase text-black bg-white border border-black/80 rounded-xl mb-6 shadow-[2px_3px_0px_black] rotate-[-2deg]">
+          <span className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold tracking-[0.25em] uppercase text-black bg-[#f6f7f9] border border-black/80 rounded-xl mb-6 shadow-[2px_3px_0px_black]">
+            <Zap size={12} />
             Features
           </span>
 
           <h2 className="font-serif font-bold text-4xl md:text-5xl lg:text-6xl text-black leading-tight">
             Built for couples who{" "}
-            <span className="text-primary inline-block -rotate-2">
+            <span className="text-primary inline-block">
               love cinema.
             </span>
           </h2>
         </div>
 
-        {/* Features */}
+        {/* ── Feature rows ── */}
         <div className="space-y-28">
-
           {features.map((f, i) => (
             <div
               key={i}
               className="grid lg:grid-cols-2 gap-14 items-center"
             >
 
-              {/* IMAGE BLOCK */}
+              {/* IMAGE */}
               <div className={`relative ${i % 2 === 1 ? "lg:order-2" : ""}`}>
                 <div
                   className="relative rounded-2xl overflow-hidden border-2 border-black"
                   style={{ boxShadow: "6px 8px 0px black" }}
                 >
-                  <div className="relative aspect-[4/3]">
+                  <div className="relative aspect-[4/3] min-h-[260px]">
                     <Image
                       src={f.image}
                       alt={f.title}
                       fill
                       className="object-cover"
+                      sizes="(max-width: 1024px) 100vw, 50vw"
                     />
                   </div>
                 </div>
 
-                {/* Floating Cards — only on first feature */}
+                {/* Floating movie cards — first feature only */}
                 {i === 0 && (
                   <>
                     <div className="absolute -bottom-8 -left-8 hidden lg:block">
@@ -104,8 +126,11 @@ export function Features() {
               {/* CONTENT */}
               <div className={i % 2 === 1 ? "lg:order-1" : ""}>
 
-                {/* Label */}
-                <span className="inline-block px-4 py-2 text-xs font-bold tracking-[0.2em] uppercase text-black bg-white border border-black/80 rounded-xl mb-6 shadow-[2px_3px_0px_black] rotate-[-2deg]">
+                {/* Label badge */}
+                <span
+                  className={`inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold tracking-[0.2em] uppercase text-black bg-[#f6f7f9] border border-black/80 rounded-xl mb-6 shadow-[2px_3px_0px_black]`}
+                >
+                  {LABEL_ICONS[f.label]}
                   {f.label}
                 </span>
 
@@ -124,8 +149,9 @@ export function Features() {
                   {f.tags.map(t => (
                     <span
                       key={t}
-                      className="px-4 py-2 bg-white border border-black/80 rounded-xl text-sm font-medium shadow-[2px_3px_0px_black]"
+                      className="inline-flex items-center gap-1.5 px-4 py-2 bg-white border border-black/80 rounded-xl text-sm font-medium shadow-[2px_3px_0px_black]"
                     >
+                      {TAG_ICONS[t]}
                       {t}
                     </span>
                   ))}
@@ -134,7 +160,6 @@ export function Features() {
               </div>
             </div>
           ))}
-
         </div>
 
       </div>

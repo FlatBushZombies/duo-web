@@ -1,6 +1,15 @@
 "use client"
 
 import Image from "next/image"
+import { UserPlus, SlidersHorizontal, PlayCircle, Clapperboard } from "lucide-react"
+
+const STEP_ICONS = [
+  <UserPlus         size={20} strokeWidth={2} />,
+  <SlidersHorizontal size={20} strokeWidth={2} />,
+  <PlayCircle       size={20} strokeWidth={2} />,
+]
+
+
 
 export default function HowItWorks() {
   const steps = [
@@ -28,15 +37,16 @@ export default function HowItWorks() {
     <section id="how-it-works" className="py-28 lg:py-36 bg-[#f6f7f9]">
       <div className="max-w-6xl mx-auto px-6">
 
-        {/* Header */}
+        {/* ── Header ── */}
         <div className="text-center mb-20">
-          <span className="inline-block px-4 py-2 text-xs font-bold tracking-[0.25em] uppercase text-black bg-white border border-black/80 rounded-xl mb-6 shadow-[2px_3px_0px_black] rotate-[-2deg]">
+          <span className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold tracking-[0.25em] uppercase text-black bg-white border border-black/80 rounded-xl mb-6 shadow-[2px_3px_0px_black]">
+            <Clapperboard size={12} />
             How It Works
           </span>
 
           <h2 className="font-serif font-bold text-4xl md:text-5xl lg:text-6xl text-black leading-tight mb-6">
             Three steps to your{" "}
-            <span className="text-primary inline-block -rotate-2">
+            <span className="text-primary inline-block">
               perfect night in.
             </span>
           </h2>
@@ -46,31 +56,41 @@ export default function HowItWorks() {
           </p>
         </div>
 
-        {/* Steps */}
-        <div className="grid md:grid-cols-3 gap-10 items-start">
+        {/* ── Steps grid ── */}
+        <div className="relative grid md:grid-cols-3 gap-10 items-start">
 
-          {steps.map((step) => (
+          {/* Connector line — visible on md+ between cards */}
+          <div
+            aria-hidden
+            className="hidden md:block absolute top-[104px] left-[calc(33.333%+20px)] right-[calc(33.333%+20px)] h-[2px] border-t-2 border-dashed border-black/20 z-0 pointer-events-none"
+          />
+
+          {steps.map((step, i) => (
             <div
               key={step.n}
-              className="relative bg-white rounded-2xl border-2 border-black shadow-[6px_8px_0px_black]"
+              className="relative z-10 bg-white rounded-2xl border-2 border-black shadow-[6px_8px_0px_black] flex flex-col"
             >
 
               {/* Image */}
-              <div className="relative h-52 overflow-hidden border-b-2 border-black rounded-t-2xl">
+              <div className="relative h-52 overflow-hidden border-b-2 border-black rounded-t-2xl shrink-0">
                 <Image
                   src={step.image}
                   alt={step.title}
                   fill
                   className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>
 
               {/* Content */}
-              <div className="p-7">
+              <div className="p-7 flex flex-col flex-1">
 
-                {/* Step Number */}
-                <div className="inline-flex items-center justify-center px-4 py-2 mb-5 bg-primary text-white font-serif font-bold rounded-xl border-2 border-black shadow-[2px_3px_0px_black] -rotate-2">
-                  {step.n}
+                {/* Step badge — icon + number */}
+                <div
+                  className={`inline-flex items-center gap-2 self-start px-4 py-2 mb-5 bg-primary text-white font-serif font-bold rounded-xl border-2 border-black shadow-[2px_3px_0px_black]`}
+                >
+                  {STEP_ICONS[i]}
+                  <span className="text-sm tracking-wider">{step.n}</span>
                 </div>
 
                 {/* Title */}
