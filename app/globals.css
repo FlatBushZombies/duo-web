@@ -4,7 +4,7 @@
 
 /* ── Design Tokens ──────────────────────────────────────────────────────── */
 :root {
-  --background: #f8f9fc;
+  --background: #fefcf7;
   --foreground: #0f1729;
   --card: #ffffff;
   --card-foreground: #0f1729;
@@ -34,11 +34,22 @@
   --brand-glow: rgba(229, 9, 20, 0.12);
   --blue-wash: #e8edf8;
   --blue-wash-deep: #dae2f6;
+
+  /* Reference palette (anul.space) — additive, does not replace --primary/etc. */
+  --ink: #161512;
+  --line: #1e1d19;
+  --muted-ink: #746f65;
+  --paper: #fffdf7;
+  --accent-purple: #7c4dff;
+  --accent-pink: #ff4d8d;
+  --accent-yellow: #ffd84d;
+  --accent-cyan: #5de1e6;
+  --accent-green: #90e36f;
 }
 
 @theme inline {
-  --font-sans: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
-  --font-serif: var(--font-playfair), 'Playfair Display', Georgia, serif;
+  --font-sans: var(--font-baloo), 'Baloo 2', system-ui, sans-serif;
+  --font-serif: var(--font-londrina), 'Londrina Solid', Impact, sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -73,6 +84,22 @@
     @apply bg-background text-foreground;
     overflow-x: hidden;
   }
+}
+
+/* ── Reference card/pill treatment (anul.space) ──────────────────────────── */
+.neo-card {
+  border: 3px solid var(--line);
+  border-radius: 26px;
+  box-shadow: 7px 8px 0 rgba(30, 29, 25, 0.98);
+  transition: transform 170ms ease, box-shadow 170ms ease;
+}
+.neo-card:hover {
+  transform: translate(-2px, -4px) rotate(-0.35deg);
+  box-shadow: 10px 13px 0 rgba(30, 29, 25, 0.98);
+}
+.neo-pill {
+  border: 2px solid var(--line);
+  border-radius: 999px;
 }
 
 /* ── Hero entrance animations ─────────────────────────────────────────────── */
@@ -136,7 +163,7 @@
   transition: box-shadow 0.35s ease, transform 0.35s ease, border-color 0.35s ease;
 }
 .step-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-6px) rotate(-0.35deg);
   box-shadow: 0 24px 64px rgba(15, 23, 41, 0.08), 0 8px 24px rgba(229, 9, 20, 0.06);
   border-color: rgba(229, 9, 20, 0.2) !important;
 }
@@ -149,7 +176,7 @@
   transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 .testi-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-5px) rotate(-0.35deg);
   box-shadow: 0 24px 56px rgba(15, 23, 41, 0.08);
 }
 
@@ -167,7 +194,7 @@
   transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
 }
 .pricing-plain:hover {
-  transform: translateY(-5px);
+  transform: translateY(-5px) rotate(-0.35deg);
   box-shadow: 0 24px 56px rgba(15, 23, 41, 0.08);
   border-color: rgba(229, 9, 20, 0.18) !important;
 }

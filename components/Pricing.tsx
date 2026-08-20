@@ -61,7 +61,7 @@ export function Pricing() {
 
         {/* Header */}
         <div className="reveal text-center mb-16">
-          <span className="inline-block px-4 py-2 text-xs font-bold tracking-[0.25em] uppercase text-black bg-white border border-black/80 rounded-xl mb-6 shadow-[2px_3px_0px_black] rotate-[-2deg]">
+          <span className="inline-block px-4 py-2 text-xs font-bold tracking-[0.25em] uppercase text-black bg-white border-2 border-[var(--line)] rounded-xl mb-6 shadow-[2px_3px_0px_rgba(30,29,25,0.98)] rotate-[-2deg]">
             Pricing
           </span>
 
@@ -77,7 +77,7 @@ export function Pricing() {
           </p>
 
           {/* Toggle */}
-          <div className="inline-flex bg-white border-2 border-black rounded-xl p-1 shadow-[3px_4px_0px_black]">
+          <div className="inline-flex bg-white border-2 border-[var(--line)] rounded-xl p-1 shadow-[3px_4px_0px_rgba(30,29,25,0.98)]">
             {[
               { label: "Monthly", val: false },
               { label: "Annual", val: true, badge: "Save 20%" },
@@ -111,7 +111,7 @@ export function Pricing() {
             return (
               <div
                 key={plan.name}
-                className={`reveal pricing-plain relative p-7 rounded-2xl border-2 border-black bg-white shadow-[6px_8px_0px_black] ${
+                className={`reveal pricing-plain relative p-7 rounded-[26px] border-[3px] border-[var(--line)] bg-white shadow-[7px_8px_0px_rgba(30,29,25,0.98)] ${
                   plan.featured ? "border-primary" : ""
                 }`}
                 style={{ transitionDelay: `${i * 120}ms` }}
@@ -119,7 +119,7 @@ export function Pricing() {
 
                 {/* Badge */}
                 {plan.badge && (
-                  <div className="absolute -top-4 right-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-lg border-2 border-black shadow-[2px_3px_0px_black]">
+                  <div className="absolute -top-4 right-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-lg border-2 border-[var(--line)] shadow-[2px_3px_0px_rgba(30,29,25,0.98)]">
                     {plan.badge}
                   </div>
                 )}
@@ -143,7 +143,7 @@ export function Pricing() {
                 <ul className="space-y-3 mb-8">
                   {plan.features.map((f) => (
                     <li key={f.t} className="flex items-center gap-3">
-                      <span className={`w-5 h-5 flex items-center justify-center rounded-full border border-black flex-shrink-0 ${
+                      <span className={`w-5 h-5 flex items-center justify-center rounded-full border-2 border-[var(--line)] flex-shrink-0 ${
                         f.ok ? "bg-primary text-white" : "bg-muted"
                       }`}>
                         {f.ok ? <Check className="w-3 h-3" /> : null}
@@ -156,7 +156,7 @@ export function Pricing() {
                 {/* CTA */}
                 <a
                   href="#download"
-                  className="block text-center py-3 rounded-xl bg-black text-white font-semibold shadow-[3px_4px_0px_black] hover:bg-black/80 transition-colors"
+                  className="block text-center py-3 rounded-xl bg-black text-white font-semibold shadow-[3px_4px_0px_rgba(30,29,25,0.98)] hover:bg-black/80 transition-colors"
                 >
                   {plan.cta}
                 </a>

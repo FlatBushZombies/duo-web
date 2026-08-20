@@ -30,7 +30,7 @@ export default function Nav({
       <div
         className={`max-w-6xl mx-auto flex items-center justify-between transition-all duration-300 ${
           scrolled
-            ? "bg-[#f5f4f0]/90 backdrop-blur-md border-2 border-black rounded-2xl px-4 py-2.5 shadow-[4px_4px_0px_#000]"
+            ? "bg-[#f5f4f0]/90 backdrop-blur-md border-2 border-[var(--line)] rounded-2xl px-4 py-2.5 shadow-[4px_4px_0px_rgba(30,29,25,0.98)]"
             : ""
         }`}
       >
@@ -42,8 +42,8 @@ export default function Nav({
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
-            className="w-10 h-10 flex flex-col items-center justify-center gap-[5px] rounded-xl border-2 border-black bg-white transition-all duration-200 hover:scale-105 hover:-rotate-2 md:hidden"
-            style={{ boxShadow: "2px 2px 0px #000" }}
+            className="w-10 h-10 flex flex-col items-center justify-center gap-[5px] rounded-xl border-2 border-[var(--line)] bg-white transition-all duration-200 hover:scale-105 hover:-rotate-2 md:hidden"
+            style={{ boxShadow: "2px 2px 0px rgba(30,29,25,0.98)" }}
           >
             <span className={`block w-4 h-[2px] bg-black rounded-full transition-all duration-200 origin-center ${mobileOpen ? "rotate-45 translate-y-[7px]" : ""}`} />
             <span className={`block w-4 h-[2px] bg-black rounded-full transition-all duration-200 ${mobileOpen ? "opacity-0 scale-x-0" : ""}`} />
@@ -53,10 +53,10 @@ export default function Nav({
           {/* Logo */}
           <a
             href="#"
-            className="flex items-center gap-2.5 px-3.5 py-2 rounded-xl border-2 border-black bg-white transition-all duration-200 hover:scale-[1.03] hover:rotate-1"
-            style={{ boxShadow: "2px 2px 0px #000" }}
+            className="flex items-center gap-2.5 px-3.5 py-2 rounded-xl border-2 border-[var(--line)] bg-white transition-all duration-200 hover:scale-[1.03] hover:rotate-1"
+            style={{ boxShadow: "2px 2px 0px rgba(30,29,25,0.98)" }}
           >
-            <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center border-2 border-black flex-shrink-0">
+            <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center border-2 border-[var(--line)] flex-shrink-0">
               <Image src="/duo-icon.png" width={20} height={20} alt="logo" className="object-cover" />
             </div>
             <span className="font-serif font-bold text-sm tracking-tight leading-none">
@@ -73,8 +73,8 @@ export default function Nav({
             <a
               key={label}
               href={href}
-              className="px-4 py-2 text-sm font-medium rounded-xl border-2 border-black bg-white transition-all duration-200 hover:scale-[1.04] hover:rotate-1 text-zinc-700 hover:text-black"
-              style={{ boxShadow: "2px 2px 0px #000" }}
+              className="px-4 py-2 text-sm font-medium rounded-xl border-2 border-[var(--line)] bg-white transition-all duration-200 hover:scale-[1.04] hover:rotate-1 text-zinc-700 hover:text-black"
+              style={{ boxShadow: "2px 2px 0px rgba(30,29,25,0.98)" }}
             >
               {label}
             </a>
@@ -85,8 +85,8 @@ export default function Nav({
         <div className="hidden md:flex items-center">
           <a
             href={ctaHref}
-            className="flex items-center gap-2.5 px-5 py-2.5 text-sm font-bold rounded-xl border-2 border-black bg-black text-white transition-all duration-200 hover:scale-[1.04] hover:-rotate-1"
-            style={{ boxShadow: "3px 3px 0px rgba(0,0,0,0.5)" }}
+            className="flex items-center gap-2.5 px-5 py-2.5 text-sm font-bold rounded-xl border-2 border-[var(--line)] bg-black text-white transition-all duration-200 hover:scale-[1.04] hover:-rotate-1"
+            style={{ boxShadow: "3px 3px 0px rgba(30,29,25,0.98)" }}
           >
             {/* HD Apple logo SVG */}
             <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 814 1000" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -105,16 +105,16 @@ export default function Nav({
         }`}
       >
         <div
-          className="flex flex-col gap-2.5 bg-[#f5f4f0] border-2 border-black rounded-2xl p-4"
-          style={{ boxShadow: "4px 4px 0px #000" }}
+          className="flex flex-col gap-2.5 bg-[#f5f4f0] border-2 border-[var(--line)] rounded-2xl p-4"
+          style={{ boxShadow: "4px 4px 0px rgba(30,29,25,0.98)" }}
         >
           {links.map(([label, href]) => (
             <a
               key={label}
               href={href}
               onClick={() => setMobileOpen(false)}
-              className="w-full text-center px-5 py-3 text-sm font-semibold rounded-xl border-2 border-black bg-white text-zinc-700 transition-all duration-200 hover:scale-[1.02] hover:text-black"
-              style={{ boxShadow: "2px 2px 0px #000" }}
+              className="w-full text-center px-5 py-3 text-sm font-semibold rounded-xl border-2 border-[var(--line)] bg-white text-zinc-700 transition-all duration-200 hover:scale-[1.02] hover:text-black"
+              style={{ boxShadow: "2px 2px 0px rgba(30,29,25,0.98)" }}
             >
               {label}
             </a>
@@ -123,8 +123,8 @@ export default function Nav({
           <a
             href={ctaHref}
             onClick={() => setMobileOpen(false)}
-            className="flex items-center justify-center gap-2.5 px-5 py-3 text-sm font-bold rounded-xl border-2 border-black bg-black text-white transition-all duration-200 hover:scale-[1.02]"
-            style={{ boxShadow: "2px 2px 0px rgba(0,0,0,0.5)" }}
+            className="flex items-center justify-center gap-2.5 px-5 py-3 text-sm font-bold rounded-xl border-2 border-[var(--line)] bg-black text-white transition-all duration-200 hover:scale-[1.02]"
+            style={{ boxShadow: "2px 2px 0px rgba(30,29,25,0.98)" }}
           >
             {/* HD Apple logo SVG */}
             <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 814 1000" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

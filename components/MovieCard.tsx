@@ -28,10 +28,10 @@ export default function MovieCard({
 }: MovieCardProps) {
   return (
     <div
-      className={`relative w-44 h-64 rounded-2xl overflow-hidden border-2 border-black bg-white transition-all duration-300 hover:scale-105 hover:rotate-0 ${className}`}
+      className={`relative w-44 h-64 rounded-[26px] overflow-hidden border-[3px] border-[var(--line)] bg-white transition-all duration-300 hover:scale-105 hover:rotate-0 ${className}`}
       style={{
         transform: `rotate(${rotation}deg) scale(${scale})`,
-        boxShadow: "5px 5px 0px #000"
+        boxShadow: "6px 7px 0px rgba(30,29,25,0.98)"
       }}
     >
       {/* Image */}
@@ -47,7 +47,7 @@ export default function MovieCard({
 
       {/* Genre pill — top-left so it doesn't crowd the title area */}
       <div className="absolute top-3 left-3">
-        <span className="inline-block px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-widest text-black bg-white rounded-full border border-black/80">
+        <span className="inline-block px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-widest text-black bg-white rounded-full border-2 border-[var(--line)]">
           {genre}
         </span>
       </div>

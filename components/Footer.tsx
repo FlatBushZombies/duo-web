@@ -54,7 +54,7 @@ export function Footer() {
 
       <div className="max-w-6xl mx-auto">
 
-        <div className="reveal p-8 md:p-10 bg-white border-2 border-black rounded-2xl shadow-[5px_7px_0px_black]">
+        <div className="reveal p-8 md:p-10 bg-white border-[3px] border-[var(--line)] rounded-[26px] shadow-[7px_8px_0px_rgba(30,29,25,0.98)]">
 
           {/* Top: brand + link columns */}
           <div className="grid md:grid-cols-[1.3fr_1fr_1fr] gap-10 pb-8">
@@ -62,7 +62,7 @@ export function Footer() {
             {/* Brand */}
             <div>
               <div className="flex items-center gap-3 mb-4 group">
-                <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center border-2 border-black shadow-[2px_3px_0px_black] transition-all group-hover:scale-105">
+                <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center border-2 border-[var(--line)] shadow-[2px_3px_0px_rgba(30,29,25,0.98)] transition-all group-hover:scale-105">
                   <Image src="/duo-icon.png" width={20} height={20} alt="logo" className="object-cover" />
                 </div>
                 <span className="font-serif font-bold text-lg text-black">
@@ -123,7 +123,7 @@ export function Footer() {
                   key={s.label}
                   href="#"
                   aria-label={s.label}
-                  className="w-9 h-9 flex items-center justify-center text-black bg-white border-2 border-black rounded-xl transition-all hover:bg-black hover:text-white hover:scale-105 hover:shadow-[2px_3px_0px_black]"
+                  className="w-9 h-9 flex items-center justify-center text-black bg-white border-2 border-[var(--line)] rounded-xl transition-all hover:bg-black hover:text-white hover:scale-105 hover:shadow-[2px_3px_0px_rgba(30,29,25,0.98)]"
                 >
                   {s.icon}
                 </a>

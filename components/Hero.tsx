@@ -36,11 +36,11 @@ export default function Hero({
       <div className="flex-1 max-w-xl lg:max-w-lg text-center lg:text-left z-10">
 
         {/* Badge */}
-        <div className="inline-flex items-center gap-2.5 mb-9 px-4 py-2 rounded-xl bg-white border-2 border-black transition-all hover:scale-[1.03] hover:rotate-1"
-             style={{ boxShadow: "3px 3px 0px #000" }}>
+        <div className="inline-flex items-center gap-2.5 mb-9 px-4 py-2 rounded-xl bg-white border-2 border-[var(--line)] transition-all hover:scale-[1.03] hover:rotate-1"
+             style={{ boxShadow: "3px 3px 0px rgba(30,29,25,0.98)" }}>
           <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse flex-shrink-0" />
           <span className="text-sm text-zinc-500 font-medium">{badgeText}</span>
-          <span className="bg-primary text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-black">
+          <span className="bg-primary text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-[var(--line)]">
             {badgeHighlight}
           </span>
         </div>
@@ -67,8 +67,8 @@ export default function Hero({
           {/* App Store */}
           <a
             href={ctaPrimary.href}
-            className="flex items-center gap-3 bg-black text-white px-5 py-3.5 rounded-xl border-2 border-black transition-all duration-200 hover:scale-[1.04] hover:-rotate-1"
-            style={{ boxShadow: "3px 3px 0px rgba(0,0,0,0.6)" }}
+            className="flex items-center gap-3 bg-black text-white px-5 py-3.5 rounded-xl border-2 border-[var(--line)] transition-all duration-200 hover:scale-[1.04] hover:-rotate-1"
+            style={{ boxShadow: "3px 3px 0px rgba(30,29,25,0.98)" }}
           >
             {/* Apple logo SVG */}
             <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 814 1000" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -83,8 +83,8 @@ export default function Hero({
           {/* Google Play */}
           <a
             href={ctaSecondary.href}
-            className="flex items-center gap-3 bg-white px-5 py-3.5 rounded-xl border-2 border-black transition-all duration-200 hover:scale-[1.04] hover:rotate-1"
-            style={{ boxShadow: "3px 3px 0px #000" }}
+            className="flex items-center gap-3 bg-white px-5 py-3.5 rounded-xl border-2 border-[var(--line)] transition-all duration-200 hover:scale-[1.04] hover:rotate-1"
+            style={{ boxShadow: "3px 3px 0px rgba(30,29,25,0.98)" }}
           >
             {/* Google Play logo SVG */}
             <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
@@ -134,7 +134,7 @@ export default function Hero({
             {users.map((src, i) => (
               <div
                 key={i}
-                className="w-9 h-9 rounded-full border-2 border-black overflow-hidden bg-white ring-2 ring-[#f5f4f0]"
+                className="w-9 h-9 rounded-full border-2 border-[var(--line)] overflow-hidden bg-white ring-2 ring-[#f5f4f0]"
               >
                 <Image src={src} alt="User" width={36} height={36} className="object-cover" />
               </div>
@@ -161,8 +161,8 @@ export default function Hero({
 
           {/* Main Image */}
           <div
-            className="relative aspect-[4/5] rounded-3xl overflow-hidden border-2 border-black"
-            style={{ boxShadow: "7px 7px 0px #000" }}
+            className="relative aspect-[4/5] rounded-[26px] overflow-hidden border-[3px] border-[var(--line)] transition-transform duration-300 hover:-translate-y-1 hover:rotate-[-0.35deg]"
+            style={{ boxShadow: "7px 8px 0px rgba(30,29,25,0.98)" }}
           >
             <Image
               src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=800&h=1000&fit=crop"
@@ -202,10 +202,10 @@ export default function Hero({
 
           {/* Match pill */}
           <div
-            className="absolute -right-6 lg:right-4 bottom-24 bg-white rounded-2xl border-2 border-black px-4 py-3 flex items-center gap-3 animate-float"
-            style={{ boxShadow: "4px 4px 0px #000" }}
+            className="absolute -right-6 lg:right-4 bottom-24 bg-white rounded-2xl border-2 border-[var(--line)] px-4 py-3 flex items-center gap-3 animate-float"
+            style={{ boxShadow: "4px 4px 0px rgba(30,29,25,0.98)" }}
           >
-            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center border-2 border-black flex-shrink-0">
+            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center border-2 border-[var(--line)] flex-shrink-0">
               <Heart className="w-5 h-5 fill-primary text-primary" />
             </div>
             <div>
@@ -216,8 +216,8 @@ export default function Hero({
 
           {/* Stats pill */}
           <div
-            className="absolute left-0 lg:-left-8 bottom-8 bg-white rounded-2xl border-2 border-black px-4 py-2.5 flex items-center gap-2.5 animate-float-slow"
-            style={{ boxShadow: "4px 4px 0px #000" }}
+            className="absolute left-0 lg:-left-8 bottom-8 bg-white rounded-2xl border-2 border-[var(--line)] px-4 py-2.5 flex items-center gap-2.5 animate-float-slow"
+            style={{ boxShadow: "4px 4px 0px rgba(30,29,25,0.98)" }}
           >
             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse flex-shrink-0" />
             <span className="text-sm font-semibold text-black">{statsText}</span>

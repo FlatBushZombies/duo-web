@@ -55,7 +55,7 @@ export function Features() {
 
         {/* ── Header ── */}
         <div className="reveal text-center mb-24">
-          <span className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold tracking-[0.25em] uppercase text-black bg-white border border-black/80 rounded-xl mb-6 shadow-[2px_3px_0px_black]">
+          <span className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold tracking-[0.25em] uppercase text-black bg-white border-2 border-[var(--line)] rounded-xl mb-6 shadow-[2px_3px_0px_rgba(30,29,25,0.98)]">
             <Zap size={12} />
             Features
           </span>
@@ -79,8 +79,8 @@ export function Features() {
               {/* IMAGE */}
               <div className={`relative ${i % 2 === 1 ? "lg:order-2" : ""}`}>
                 <div
-                  className="relative rounded-2xl overflow-hidden border-2 border-black"
-                  style={{ boxShadow: "6px 8px 0px black" }}
+                  className="relative rounded-[26px] overflow-hidden border-[3px] border-[var(--line)] transition-transform duration-300 hover:-translate-y-1 hover:rotate-[-0.35deg]"
+                  style={{ boxShadow: "7px 8px 0px rgba(30,29,25,0.98)" }}
                 >
                   <div className="relative aspect-[4/3] min-h-[260px]">
                     <Image
@@ -128,7 +128,7 @@ export function Features() {
 
                 {/* Label badge */}
                 <span
-                  className={`inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold tracking-[0.2em] uppercase text-black bg-white border border-black/80 rounded-xl mb-6 shadow-[2px_3px_0px_black]`}
+                  className={`inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold tracking-[0.2em] uppercase text-black bg-white border-2 border-[var(--line)] rounded-xl mb-6 shadow-[2px_3px_0px_rgba(30,29,25,0.98)]`}
                 >
                   {LABEL_ICONS[f.label]}
                   {f.label}
@@ -149,7 +149,7 @@ export function Features() {
                   {f.tags.map(t => (
                     <span
                       key={t}
-                      className="inline-flex items-center gap-1.5 px-4 py-2 bg-white border border-black/80 rounded-xl text-sm font-medium shadow-[2px_3px_0px_black]"
+                      className="inline-flex items-center gap-1.5 px-4 py-2 bg-white border-2 border-[var(--line)] rounded-xl text-sm font-medium shadow-[2px_3px_0px_rgba(30,29,25,0.98)]"
                     >
                       {TAG_ICONS[t]}
                       {t}

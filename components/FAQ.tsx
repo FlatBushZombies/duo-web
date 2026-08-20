@@ -19,7 +19,7 @@ export function FAQ() {
 
         {/* Header */}
         <div className="reveal text-center mb-16">
-          <span className="inline-block px-4 py-2 text-xs font-bold tracking-[0.25em] uppercase text-black bg-[#f6f7f9] border-2 border-black rounded-xl mb-6 shadow-[3px_4px_0px_black]">
+          <span className="inline-block px-4 py-2 text-xs font-bold tracking-[0.25em] uppercase text-black bg-[#f6f7f9] border-2 border-[var(--line)] rounded-xl mb-6 shadow-[3px_4px_0px_rgba(30,29,25,0.98)]">
             FAQ
           </span>
 
@@ -35,10 +35,10 @@ export function FAQ() {
           {items.map((item, i) => (
             <div
               key={i}
-              className={`reveal bg-white border-2 border-black rounded-2xl overflow-hidden transition-shadow duration-200 ${
+              className={`reveal bg-white border-[3px] border-[var(--line)] rounded-[26px] overflow-hidden transition-shadow duration-200 ${
                 open === i
-                  ? "shadow-[6px_8px_0px_black]"
-                  : "shadow-[4px_6px_0px_black] hover:shadow-[5px_7px_0px_black]"
+                  ? "shadow-[7px_8px_0px_rgba(30,29,25,0.98)]"
+                  : "shadow-[5px_6px_0px_rgba(30,29,25,0.98)] hover:shadow-[6px_7px_0px_rgba(30,29,25,0.98)]"
               }`}
               style={{ transitionDelay: `${i * 80}ms` }}
             >
@@ -54,7 +54,7 @@ export function FAQ() {
                 </span>
 
                 <div
-                  className={`w-8 h-8 shrink-0 flex items-center justify-center rounded-lg border-2 border-black font-bold text-lg leading-none transition-all duration-200 ${
+                  className={`w-8 h-8 shrink-0 flex items-center justify-center rounded-lg border-2 border-[var(--line)] font-bold text-lg leading-none transition-all duration-200 ${
                     open === i
                       ? "bg-black text-white rotate-0"
                       : "bg-white text-black"

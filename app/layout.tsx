@@ -1,18 +1,18 @@
 import type { Metadata } from 'next'
-import { DM_Sans, Playfair_Display } from 'next/font/google'
+import { Baloo_2, Londrina_Solid } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const dmSans = DM_Sans({
+const baloo2 = Baloo_2({
   subsets: ['latin'],
-  variable: '--font-dm-sans',
-  weight: ['400', '500', '600', '700'],
+  variable: '--font-baloo',
+  weight: ['400', '500', '600', '700', '800'],
 })
 
-const playfair = Playfair_Display({
+const londrinaSolid = Londrina_Solid({
   subsets: ['latin'],
-  variable: '--font-playfair',
-  weight: ['400', '500', '600', '700', '800', '900'],
+  variable: '--font-londrina',
+  weight: ['300', '400', '900'],
 })
 
 export const metadata: Metadata = {
@@ -44,7 +44,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${dmSans.variable} ${playfair.variable} font-sans antialiased`}>
+      <body className={`${baloo2.variable} ${londrinaSolid.variable} font-sans antialiased`}>
         {children}
         <Analytics />
       </body>

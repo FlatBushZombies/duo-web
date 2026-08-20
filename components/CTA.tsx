@@ -47,7 +47,7 @@ export function CTA() {
     <section id="download" className="py-24 px-6 bg-[#f6f7f9]">
       <div className="max-w-5xl mx-auto">
 
-        <div className="relative rounded-3xl border-2 border-black overflow-hidden shadow-[6px_8px_0px_black]">
+        <div className="relative rounded-[26px] border-[3px] border-[var(--line)] overflow-hidden shadow-[7px_8px_0px_rgba(30,29,25,0.98)]">
 
           {/* Background */}
           <div className="absolute inset-0">
@@ -64,7 +64,7 @@ export function CTA() {
           <div className="relative z-10 text-center py-20 lg:py-24 px-8">
 
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 mb-8 bg-white/10 border border-white/20 px-4 py-2 rounded-xl backdrop-blur-sm">
+            <div className="inline-flex items-center gap-2 mb-8 bg-white/10 border-2 border-white/20 px-4 py-2 rounded-xl backdrop-blur-sm">
               <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
               <span className="text-sm text-white/80 font-medium">
                 Free to Download
@@ -90,7 +90,7 @@ export function CTA() {
               {/* App Store */}
               <a
                 href="#"
-                className="flex items-center gap-3 bg-white text-black px-6 py-4 rounded-xl border-2 border-black shadow-[3px_4px_0px_black] transition-all hover:scale-105 hover:shadow-[5px_6px_0px_black] active:scale-[0.98]"
+                className="flex items-center gap-3 bg-white text-black px-6 py-4 rounded-xl border-2 border-[var(--line)] shadow-[3px_4px_0px_rgba(30,29,25,0.98)] transition-all hover:scale-105 hover:shadow-[5px_6px_0px_rgba(30,29,25,0.98)] active:scale-[0.98]"
               >
                 <AppleLogo />
                 <div className="text-left leading-none">

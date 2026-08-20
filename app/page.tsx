@@ -148,7 +148,7 @@ function Ticker() {
 
           <div
             key={i}
-            className="flex items-center gap-4 px-5 py-2.5 mx-3 rounded-xl border-2 border-black bg-white whitespace-nowrap shadow-[3px_4px_0px_black]"
+            className="flex items-center gap-4 px-5 py-2.5 mx-3 rounded-xl border-2 border-[var(--line)] bg-white whitespace-nowrap shadow-[3px_4px_0px_rgba(30,29,25,0.98)]"
           >
             <span className="text-sm font-medium text-black">
               {item}

@@ -39,7 +39,7 @@ export default function HowItWorks() {
 
         {/* ── Header ── */}
         <div className="reveal text-center mb-20">
-          <span className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold tracking-[0.25em] uppercase text-black bg-[#f6f7f9] border border-black/80 rounded-xl mb-6 shadow-[2px_3px_0px_black]">
+          <span className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold tracking-[0.25em] uppercase text-black bg-[#f6f7f9] border-2 border-[var(--line)] rounded-xl mb-6 shadow-[2px_3px_0px_rgba(30,29,25,0.98)]">
             <Clapperboard size={12} />
             How It Works
           </span>
@@ -68,12 +68,12 @@ export default function HowItWorks() {
           {steps.map((step, i) => (
             <div
               key={step.n}
-              className="reveal step-card relative z-10 bg-white rounded-2xl border-2 border-black shadow-[6px_8px_0px_black] flex flex-col"
+              className="reveal step-card relative z-10 bg-white rounded-[26px] border-[3px] border-[var(--line)] shadow-[7px_8px_0px_rgba(30,29,25,0.98)] flex flex-col overflow-hidden"
               style={{ transitionDelay: `${i * 120}ms` }}
             >
 
               {/* Image */}
-              <div className="relative h-52 overflow-hidden border-b-2 border-black rounded-t-2xl shrink-0">
+              <div className="relative h-52 overflow-hidden border-b-[3px] border-[var(--line)] shrink-0">
                 <Image
                   src={step.image}
                   alt={step.title}
@@ -88,7 +88,7 @@ export default function HowItWorks() {
 
                 {/* Step badge — icon + number */}
                 <div
-                  className={`inline-flex items-center gap-2 self-start px-4 py-2 mb-5 bg-primary text-white font-serif font-bold rounded-xl border-2 border-black shadow-[2px_3px_0px_black]`}
+                  className={`inline-flex items-center gap-2 self-start px-4 py-2 mb-5 bg-primary text-white font-serif font-bold rounded-xl border-2 border-[var(--line)] shadow-[2px_3px_0px_rgba(30,29,25,0.98)]`}
                 >
                   {STEP_ICONS[i]}
                   <span className="text-sm tracking-wider">{step.n}</span>

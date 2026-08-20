@@ -14,10 +14,10 @@ export function Stats() {
         {stats.map((s, i) => (
           <div key={i} className="reveal" style={{ transitionDelay: `${i * 90}ms` }}>
             <div
-              className="bg-white px-8 py-6 rounded-2xl border-2 border-black transition-all duration-300 hover:scale-105 hover:rotate-1 hover:shadow-[5px_7px_0px_black]"
+              className="bg-white px-8 py-6 rounded-[26px] border-[3px] border-[var(--line)] transition-all duration-300 hover:scale-105 hover:rotate-1 hover:shadow-[9px_11px_0px_rgba(30,29,25,0.98)]"
               style={{
                 transform: `rotate(${i % 2 === 0 ? "-2deg" : "2deg"})`,
-                boxShadow: "6px 8px 0px black"
+                boxShadow: "7px 8px 0px rgba(30,29,25,0.98)"
               }}
             >
               <div className="font-serif font-bold text-4xl lg:text-5xl text-black mb-2 text-center">

@@ -270,7 +270,7 @@ export default function PrivacyPolicyPage() {
 
       <section className="pt-36 pb-16 px-6">
         <div className="max-w-3xl mx-auto text-center">
-          <div className="reveal hero-badge inline-flex items-center gap-2 px-4 py-1.5 mb-6 bg-white border-2 border-black rounded-full text-xs font-semibold tracking-wide">
+          <div className="reveal hero-badge inline-flex items-center gap-2 px-4 py-1.5 mb-6 bg-white border-2 border-[var(--line)] rounded-full text-xs font-semibold tracking-wide">
             <span className="w-1.5 h-1.5 rounded-full bg-primary" />
             LEGAL
           </div>
@@ -287,7 +287,7 @@ export default function PrivacyPolicyPage() {
         <div className="max-w-3xl mx-auto">
           <div className="reveal grid md:grid-cols-[220px_1fr] gap-10">
             <aside className="hidden md:block">
-              <div className="sticky top-28 p-5 bg-white border-2 border-black rounded-2xl shadow-[4px_5px_0px_black]">
+              <div className="sticky top-28 p-5 bg-white border-[3px] border-[var(--line)] rounded-[26px] shadow-[6px_7px_0px_rgba(30,29,25,0.98)]">
                 <p className="text-xs font-bold tracking-[0.2em] uppercase text-black mb-4">
                   On this page
                 </p>
@@ -305,7 +305,7 @@ export default function PrivacyPolicyPage() {
               </div>
             </aside>
 
-            <div className="p-6 md:p-10 bg-white border-2 border-black rounded-2xl shadow-[5px_7px_0px_black] space-y-10">
+            <div className="p-6 md:p-10 bg-white border-[3px] border-[var(--line)] rounded-[26px] shadow-[7px_8px_0px_rgba(30,29,25,0.98)] space-y-10">
               {SECTIONS.map((s) => (
                 <div key={s.id} id={s.id} className="scroll-mt-28">
                   <h2 className="font-serif text-xl md:text-2xl font-bold text-black mb-3">

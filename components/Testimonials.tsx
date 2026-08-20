@@ -37,7 +37,7 @@ export function Testimonials() {
 
         {/* Header */}
         <div className="reveal text-center mb-20">
-          <span className="inline-block px-4 py-2 text-xs font-bold tracking-[0.25em] uppercase text-black bg-[#f6f7f9] border border-black/80 rounded-xl mb-6 shadow-[2px_3px_0px_black] rotate-[-2deg]">
+          <span className="inline-block px-4 py-2 text-xs font-bold tracking-[0.25em] uppercase text-black bg-[#f6f7f9] border-2 border-[var(--line)] rounded-xl mb-6 shadow-[2px_3px_0px_rgba(30,29,25,0.98)] rotate-[-2deg]">
             Couples Love It
           </span>
 
@@ -55,7 +55,7 @@ export function Testimonials() {
           {reviews.map((r, i) => (
             <div
               key={i}
-              className={`reveal testi-card relative bg-white p-7 rounded-2xl border-2 border-black shadow-[6px_8px_0px_black] ${r.rotation}`}
+              className={`reveal testi-card relative bg-white p-7 rounded-[26px] border-[3px] border-[var(--line)] shadow-[7px_8px_0px_rgba(30,29,25,0.98)] ${r.rotation}`}
               style={{ transitionDelay: `${i * 120}ms` }}
             >
 
@@ -84,7 +84,7 @@ export function Testimonials() {
 
               {/* Author */}
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-black flex-shrink-0">
+                <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-[var(--line)] flex-shrink-0">
                   <Image src={r.image} alt={r.name} width={48} height={48} className="object-cover" />
                 </div>
                 <div>
