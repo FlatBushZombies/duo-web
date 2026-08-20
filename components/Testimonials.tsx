@@ -32,12 +32,12 @@ export function Testimonials() {
   ];
 
   return (
-    <section className="py-28 lg:py-36 bg-[#f6f7f9]">
+    <section className="py-28 lg:py-36 bg-white">
       <div className="max-w-6xl mx-auto px-6">
 
         {/* Header */}
-        <div className="text-center mb-20">
-          <span className="inline-block px-4 py-2 text-xs font-bold tracking-[0.25em] uppercase text-black bg-white border border-black/80 rounded-xl mb-6 shadow-[2px_3px_0px_black] rotate-[-2deg]">
+        <div className="reveal text-center mb-20">
+          <span className="inline-block px-4 py-2 text-xs font-bold tracking-[0.25em] uppercase text-black bg-[#f6f7f9] border border-black/80 rounded-xl mb-6 shadow-[2px_3px_0px_black] rotate-[-2deg]">
             Couples Love It
           </span>
 
@@ -55,7 +55,8 @@ export function Testimonials() {
           {reviews.map((r, i) => (
             <div
               key={i}
-              className={`relative bg-white p-7 rounded-2xl border-2 border-black shadow-[6px_8px_0px_black] ${r.rotation}`}
+              className={`reveal testi-card relative bg-white p-7 rounded-2xl border-2 border-black shadow-[6px_8px_0px_black] ${r.rotation}`}
+              style={{ transitionDelay: `${i * 120}ms` }}
             >
 
               {/* Pin — protrudes above the card top-right corner */}

@@ -149,7 +149,7 @@ export default function Hero({
               ))}
             </div>
             <p className="text-xs text-zinc-500 leading-tight">
-              <span className="font-bold text-black">2.1M+ couples</span> finding movies together
+              Loved by couples everywhere
             </p>
           </div>
         </div>

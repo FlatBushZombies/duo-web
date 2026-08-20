@@ -50,12 +50,12 @@ export function Features() {
   ]
 
   return (
-    <section id="features" className="py-28 lg:py-36 bg-white">
+    <section id="features" className="py-28 lg:py-36 bg-[#f6f7f9]">
       <div className="max-w-6xl mx-auto px-6">
 
         {/* ── Header ── */}
-        <div className="text-center mb-24">
-          <span className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold tracking-[0.25em] uppercase text-black bg-[#f6f7f9] border border-black/80 rounded-xl mb-6 shadow-[2px_3px_0px_black]">
+        <div className="reveal text-center mb-24">
+          <span className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold tracking-[0.25em] uppercase text-black bg-white border border-black/80 rounded-xl mb-6 shadow-[2px_3px_0px_black]">
             <Zap size={12} />
             Features
           </span>
@@ -73,7 +73,7 @@ export function Features() {
           {features.map((f, i) => (
             <div
               key={i}
-              className="grid lg:grid-cols-2 gap-14 items-center"
+              className="reveal grid lg:grid-cols-2 gap-14 items-center"
             >
 
               {/* IMAGE */}
@@ -128,7 +128,7 @@ export function Features() {
 
                 {/* Label badge */}
                 <span
-                  className={`inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold tracking-[0.2em] uppercase text-black bg-[#f6f7f9] border border-black/80 rounded-xl mb-6 shadow-[2px_3px_0px_black]`}
+                  className={`inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold tracking-[0.2em] uppercase text-black bg-white border border-black/80 rounded-xl mb-6 shadow-[2px_3px_0px_black]`}
                 >
                   {LABEL_ICONS[f.label]}
                   {f.label}

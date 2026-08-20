@@ -14,12 +14,12 @@ export function FAQ() {
   ]
 
   return (
-    <section id="faq" className="py-28 lg:py-36 bg-[#f6f7f9]">
+    <section id="faq" className="py-28 lg:py-36 bg-white">
       <div className="max-w-2xl mx-auto px-6">
 
         {/* Header */}
-        <div className="text-center mb-16">
-          <span className="inline-block px-4 py-2 text-xs font-bold tracking-[0.25em] uppercase text-black bg-white border-2 border-black rounded-xl mb-6 shadow-[3px_4px_0px_black]">
+        <div className="reveal text-center mb-16">
+          <span className="inline-block px-4 py-2 text-xs font-bold tracking-[0.25em] uppercase text-black bg-[#f6f7f9] border-2 border-black rounded-xl mb-6 shadow-[3px_4px_0px_black]">
             FAQ
           </span>
 
@@ -35,11 +35,12 @@ export function FAQ() {
           {items.map((item, i) => (
             <div
               key={i}
-              className={`bg-white border-2 border-black rounded-2xl overflow-hidden transition-shadow duration-200 ${
+              className={`reveal bg-white border-2 border-black rounded-2xl overflow-hidden transition-shadow duration-200 ${
                 open === i
                   ? "shadow-[6px_8px_0px_black]"
                   : "shadow-[4px_6px_0px_black] hover:shadow-[5px_7px_0px_black]"
               }`}
+              style={{ transitionDelay: `${i * 80}ms` }}
             >
 
               {/* Question */}

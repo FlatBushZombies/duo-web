@@ -200,9 +200,9 @@ export default function DateFlixLanding() {
       <main className="min-h-screen bg-background">
         <Nav />
         <Hero />
+        <Stats />
         <Ticker />
         <HowItWorks/>
-        <Stats />
         <Features />
         <Testimonials />
         <Pricing />

@@ -60,7 +60,7 @@ export function Pricing() {
       <div className="max-w-5xl mx-auto px-6">
 
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="reveal text-center mb-16">
           <span className="inline-block px-4 py-2 text-xs font-bold tracking-[0.25em] uppercase text-black bg-white border border-black/80 rounded-xl mb-6 shadow-[2px_3px_0px_black] rotate-[-2deg]">
             Pricing
           </span>
@@ -105,15 +105,16 @@ export function Pricing() {
         {/* Plans */}
         <div className="grid md:grid-cols-3 gap-8 items-start">
 
-          {PLANS.map((plan) => {
+          {PLANS.map((plan, i) => {
             const price = annual ? plan.price.yr : plan.price.mo
 
             return (
               <div
                 key={plan.name}
-                className={`relative p-7 rounded-2xl border-2 border-black bg-white shadow-[6px_8px_0px_black] ${
+                className={`reveal pricing-plain relative p-7 rounded-2xl border-2 border-black bg-white shadow-[6px_8px_0px_black] ${
                   plan.featured ? "border-primary" : ""
                 }`}
+                style={{ transitionDelay: `${i * 120}ms` }}
               >
 
                 {/* Badge */}
