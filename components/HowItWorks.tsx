@@ -4,9 +4,9 @@ import Image from "next/image"
 import { UserPlus, SlidersHorizontal, PlayCircle, Clapperboard } from "lucide-react"
 
 const STEP_ICONS = [
-  <UserPlus         size={20} strokeWidth={2} />,
-  <SlidersHorizontal size={20} strokeWidth={2} />,
-  <PlayCircle       size={20} strokeWidth={2} />,
+  <UserPlus key="connect" size={20} strokeWidth={2} />,
+  <SlidersHorizontal key="swipe" size={20} strokeWidth={2} />,
+  <PlayCircle key="watch" size={20} strokeWidth={2} />,
 ]
 
 
@@ -34,12 +34,12 @@ export default function HowItWorks() {
   ]
 
   return (
-    <section id="how-it-works" className="py-28 lg:py-36 bg-[#f6f7f9]">
+    <section id="how-it-works" className="py-28 lg:py-36 bg-white">
       <div className="max-w-6xl mx-auto px-6">
 
         {/* ── Header ── */}
-        <div className="text-center mb-20">
-          <span className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold tracking-[0.25em] uppercase text-black bg-white border border-black/80 rounded-xl mb-6 shadow-[2px_3px_0px_black]">
+        <div className="reveal text-center mb-20">
+          <span className="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-bold tracking-[0.25em] uppercase text-black bg-[#f6f7f9] border border-black/80 rounded-xl mb-6 shadow-[2px_3px_0px_black]">
             <Clapperboard size={12} />
             How It Works
           </span>
@@ -68,7 +68,8 @@ export default function HowItWorks() {
           {steps.map((step, i) => (
             <div
               key={step.n}
-              className="relative z-10 bg-white rounded-2xl border-2 border-black shadow-[6px_8px_0px_black] flex flex-col"
+              className="reveal step-card relative z-10 bg-white rounded-2xl border-2 border-black shadow-[6px_8px_0px_black] flex flex-col"
+              style={{ transitionDelay: `${i * 120}ms` }}
             >
 
               {/* Image */}
