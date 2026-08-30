@@ -31,16 +31,16 @@ function YoutubeGlyph() {
 
 export function Footer() {
   const productLinks = [
-    ["How It Works", "#how-it-works"],
-    ["Features", "#features"],
-    ["Pricing", "#pricing"],
-    ["FAQ", "#faq"],
+    ["How It Works", "/#how-it-works"],
+    ["Features", "/#features"],
+    ["Pricing", "/#pricing"],
+    ["FAQ", "/#faq"],
   ]
 
   const companyLinks = [
     ["Privacy Policy", "/privacy"],
-    ["Terms of Service", "#"],
-    ["Contact", "#"],
+    ["Terms of Use", "/terms"],
+    ["Support", "/support"],
   ]
 
   const socials = [
