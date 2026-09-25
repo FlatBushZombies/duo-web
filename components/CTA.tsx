@@ -52,7 +52,7 @@ export function CTA() {
           {/* Background */}
           <div className="absolute inset-0">
             <Image
-              src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=1600&h=800&fit=crop"
+              src="https://images.pexels.com/photos/7991303/pexels-photo-7991303.jpeg?auto=compress&cs=tinysrgb&w=1600"
               alt="Cinema"
               fill
               className="object-cover"
@@ -90,7 +90,7 @@ export function CTA() {
               {/* App Store */}
               <a
                 href="#"
-                className="flex items-center gap-3 bg-white text-black px-6 py-4 rounded-xl border-2 border-[var(--line)] shadow-[3px_4px_0px_rgba(30,29,25,0.98)] transition-all hover:scale-105 hover:shadow-[5px_6px_0px_rgba(30,29,25,0.98)] active:scale-[0.98]"
+                className="btn-neo flex items-center gap-3 bg-white text-black px-6 py-4 rounded-xl"
               >
                 <AppleLogo />
                 <div className="text-left leading-none">
@@ -106,7 +106,7 @@ export function CTA() {
               {/* Google Play */}
               <a
                 href="#"
-                className="flex items-center gap-3 bg-white/10 text-white px-6 py-4 rounded-xl border-2 border-white/30 backdrop-blur-sm transition-all hover:scale-105 hover:bg-white/15 active:scale-[0.98]"
+                className="btn-neo btn-neo-ghost flex items-center gap-3 bg-white/10 text-white px-6 py-4 rounded-xl backdrop-blur-sm hover:bg-white/15"
               >
                 <GooglePlayLogo />
                 <div className="text-left leading-none">

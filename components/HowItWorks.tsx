@@ -17,19 +17,19 @@ export default function HowItWorks() {
       n: "01",
       title: "Connect Your Partner",
       body: "Create your couple profile and link in seconds. A shared code — zero friction.",
-      image: "https://images.unsplash.com/photo-1522556189639-b150ed9c4330?w=600&h=400&fit=crop",
+      image: "https://images.pexels.com/photos/6303546/pexels-photo-6303546.jpeg?auto=compress&cs=tinysrgb&w=600",
     },
     {
       n: "02",
       title: "Swipe Independently",
       body: "Each partner swipes through a curated feed built around your individual taste.",
-      image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=400&fit=crop",
+      image: "https://images.pexels.com/photos/215367/pexels-photo-215367.jpeg?auto=compress&cs=tinysrgb&w=600",
     },
     {
       n: "03",
       title: "Watch What You Love",
       body: "Both swipe right on the same film — instant match notification. Press play.",
-      image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=600&h=400&fit=crop",
+      image: "https://images.pexels.com/photos/7234244/pexels-photo-7234244.jpeg?auto=compress&cs=tinysrgb&w=600",
     },
   ]
 

@@ -10,7 +10,7 @@ export function Testimonials() {
       quote: "We used to spend 45 minutes arguing about what to watch. Duo solved that completely. Now it's the best part of our Friday night.",
       name: "Sarah & Jake",
       meta: "Together 3 years · 214 movies matched",
-      image: "https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?w=200&h=200&fit=crop",
+      image: "https://images.pexels.com/photos/8350774/pexels-photo-8350774.jpeg?auto=compress&cs=tinysrgb&w=200&h=200",
       rotation: "-rotate-2",
     },
     {
@@ -18,7 +18,7 @@ export function Testimonials() {
       quote: "Long-distance and Duo is what keeps our movie nights alive. We swipe from different countries and enjoy films together.",
       name: "Marcus & Léa",
       meta: "Long distance · 89 movies matched",
-      image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&h=200&fit=crop",
+      image: "https://images.pexels.com/photos/16958110/pexels-photo-16958110.jpeg?auto=compress&cs=tinysrgb&w=200&h=200",
       rotation: "rotate-2",
     },
     {
@@ -26,7 +26,7 @@ export function Testimonials() {
       quote: "The AI learned we both secretly love terrible horror movies. No judgment, just matches. We're completely obsessed.",
       name: "Priya & Daniel",
       meta: "Newlyweds · 56 movies matched",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop",
+      image: "https://images.pexels.com/photos/2719500/pexels-photo-2719500.jpeg?auto=compress&cs=tinysrgb&w=200&h=200",
       rotation: "-rotate-1",
     },
   ];

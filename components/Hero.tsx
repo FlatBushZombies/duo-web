@@ -1,27 +1,27 @@
 "use client"
 
 import Image from "next/image"
-import { Heart, Star } from "lucide-react"
+import { Heart, Star, X } from "lucide-react"
 import MovieCard from "./MovieCard"
 
 export default function Hero({
-  badgeText = "Now live on iOS & Android",
-  badgeHighlight = "FREE",
   title = "Watch Together, Choose Together.",
   highlightText = "Choose Together.",
-  subtitle = "Duo matches you and your partner on movies you'll both love — swipe, match, and enjoy the perfect movie night.",
+  subtitle = "The AI-powered app for couples who can't agree on a movie. Both swipe, Duo finds the match — no more 45 minutes of scrolling.",
   ctaPrimary = { text: "Download on the App Store", href: "#download" },
   ctaSecondary = { text: "Get it on Google Play", href: "#download" },
+  socialProofText = "Loved by 2.1M couples",
+  microTrust = "Free to download · Both partners need the app",
   statsText = "847 matches today",
   users = [
-    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop",
-    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
-    "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
-    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop"
+    "https://images.pexels.com/photos/8350774/pexels-photo-8350774.jpeg?auto=compress&cs=tinysrgb&w=100&h=100",
+    "https://images.pexels.com/photos/16958110/pexels-photo-16958110.jpeg?auto=compress&cs=tinysrgb&w=100&h=100",
+    "https://images.pexels.com/photos/2719500/pexels-photo-2719500.jpeg?auto=compress&cs=tinysrgb&w=100&h=100",
+    "https://images.pexels.com/photos/31654010/pexels-photo-31654010.jpeg?auto=compress&cs=tinysrgb&w=100&h=100"
   ]
 }) {
   return (
-    <section className="relative min-h-screen flex flex-col lg:flex-row items-center justify-center overflow-hidden pt-32 pb-20 px-6 bg-[#f5f4f0]">
+    <section className="relative flex flex-col items-center justify-center overflow-hidden pt-36 pb-24 px-6 bg-[#f5f4f0]">
 
       {/* Subtle dot-grid texture */}
       <div
@@ -32,43 +32,56 @@ export default function Hero({
         }}
       />
 
-      {/* LEFT */}
-      <div className="flex-1 max-w-xl lg:max-w-lg text-center lg:text-left z-10">
+      {/* ── Copy block — centered, product-led ── */}
+      <div className="relative z-10 max-w-2xl mx-auto text-center">
 
-        {/* Badge */}
-        <div className="inline-flex items-center gap-2.5 mb-9 px-4 py-2 rounded-xl bg-white border-2 border-[var(--line)] transition-all hover:scale-[1.03] hover:rotate-1"
-             style={{ boxShadow: "3px 3px 0px rgba(30,29,25,0.98)" }}>
-          <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse flex-shrink-0" />
-          <span className="text-sm text-zinc-500 font-medium">{badgeText}</span>
-          <span className="bg-primary text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-[var(--line)]">
-            {badgeHighlight}
-          </span>
+        {/* Social proof — avatars + rating, above the headline */}
+        <div
+          className="hero-badge inline-flex items-center gap-3 mb-8 pl-2.5 pr-4 py-2 rounded-full bg-white border-2 border-[var(--line)]"
+          style={{ boxShadow: "3px 3px 0px rgba(30,29,25,0.98)" }}
+        >
+          <div className="flex -space-x-2.5">
+            {users.map((src, i) => (
+              <div
+                key={i}
+                className="w-7 h-7 rounded-full border-2 border-white ring-1 ring-[var(--line)] overflow-hidden bg-zinc-200 flex-shrink-0"
+              >
+                <Image src={src} alt="" width={28} height={28} className="object-cover w-full h-full" />
+              </div>
+            ))}
+          </div>
+          <span className="w-px h-5 bg-black/10 flex-shrink-0" />
+          <div className="flex items-center gap-1 flex-shrink-0">
+            {[1, 2, 3, 4, 5].map(i => (
+              <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
+            ))}
+          </div>
+          <span className="text-xs font-semibold text-zinc-600 whitespace-nowrap">{socialProofText}</span>
         </div>
 
         {/* Title */}
-        <h1 className="font-serif font-bold text-[3.4rem] md:text-6xl lg:text-[4.2rem] text-black leading-[1.04] tracking-tight mb-7">
+        <h1 className="hero-h1 font-serif font-bold text-[2.75rem] sm:text-6xl lg:text-[4.4rem] text-black leading-[1.04] tracking-tight mb-6">
           {title.replace(highlightText, "")}
           <span
             className="inline-block text-primary"
-            style={{ transform: "rotate(-2deg)", display: "inline-block" }}
+            style={{ transform: "rotate(-1.5deg)", display: "inline-block" }}
           >
             {highlightText}
           </span>
         </h1>
 
         {/* Subtitle */}
-        <p className="text-lg md:text-xl text-zinc-500 leading-relaxed mb-11 max-w-md mx-auto lg:mx-0">
+        <p className="hero-sub text-lg md:text-xl text-zinc-500 leading-relaxed mb-10 max-w-lg mx-auto">
           {subtitle}
         </p>
 
         {/* CTA Buttons */}
-        <div className="flex flex-wrap gap-4 justify-center lg:justify-start mb-12">
+        <div className="hero-btns flex flex-wrap gap-4 justify-center mb-4">
 
           {/* App Store */}
           <a
             href={ctaPrimary.href}
-            className="flex items-center gap-3 bg-black text-white px-5 py-3.5 rounded-xl border-2 border-[var(--line)] transition-all duration-200 hover:scale-[1.04] hover:-rotate-1"
-            style={{ boxShadow: "3px 3px 0px rgba(30,29,25,0.98)" }}
+            className="btn-neo flex items-center gap-3 bg-black text-white px-5 py-3.5 rounded-xl"
           >
             {/* Apple logo SVG */}
             <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 814 1000" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -83,8 +96,7 @@ export default function Hero({
           {/* Google Play */}
           <a
             href={ctaSecondary.href}
-            className="flex items-center gap-3 bg-white px-5 py-3.5 rounded-xl border-2 border-[var(--line)] transition-all duration-200 hover:scale-[1.04] hover:rotate-1"
-            style={{ boxShadow: "3px 3px 0px rgba(30,29,25,0.98)" }}
+            className="btn-neo flex items-center gap-3 bg-white px-5 py-3.5 rounded-xl"
           >
             {/* Google Play logo SVG */}
             <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
@@ -127,82 +139,95 @@ export default function Hero({
 
         </div>
 
-        {/* Social Proof */}
-        <div className="flex items-center gap-4 justify-center lg:justify-start">
-          {/* Avatars */}
-          <div className="flex -space-x-3">
-            {users.map((src, i) => (
-              <div
-                key={i}
-                className="w-9 h-9 rounded-full border-2 border-[var(--line)] overflow-hidden bg-white ring-2 ring-[#f5f4f0]"
-              >
-                <Image src={src} alt="User" width={36} height={36} className="object-cover" />
-              </div>
-            ))}
-          </div>
-
-          {/* Stars + copy */}
-          <div>
-            <div className="flex items-center gap-0.5 mb-0.5">
-              {[1, 2, 3, 4, 5].map(i => (
-                <Star key={i} className="w-3 h-3 fill-amber-400 text-amber-400" />
-              ))}
-            </div>
-            <p className="text-xs text-zinc-500 leading-tight">
-              Loved by couples everywhere
-            </p>
-          </div>
-        </div>
+        <p className="hero-btns text-xs text-zinc-400">{microTrust}</p>
       </div>
 
-      {/* RIGHT */}
-      <div className="flex-1 relative mt-20 lg:mt-0 lg:ml-20 z-10">
-        <div className="relative w-[320px] md:w-[400px] mx-auto">
+      {/* ── Product visual — the app itself, not a lifestyle photo ── */}
+      <div className="hero-visual relative mt-16 z-10">
+        <div className="relative w-[280px] mx-auto">
 
-          {/* Main Image */}
+          {/* App mockup card */}
           <div
-            className="relative aspect-[4/5] rounded-[26px] overflow-hidden border-[3px] border-[var(--line)] transition-transform duration-300 hover:-translate-y-1 hover:rotate-[-0.35deg]"
-            style={{ boxShadow: "7px 8px 0px rgba(30,29,25,0.98)" }}
+            className="relative rounded-[42px] border-[3px] border-[var(--line)] bg-white p-2.5 transition-transform duration-300 hover:-translate-y-1"
+            style={{ boxShadow: "8px 9px 0px rgba(30,29,25,0.98)" }}
           >
-            <Image
-              src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=800&h=1000&fit=crop"
-              alt="Couple enjoying movie night"
-              fill
-              className="object-cover"
-              priority
-            />
-            {/* Subtle vignette */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+            {/* Camera dot */}
+            <div className="absolute top-5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-black/15 z-20" />
+
+            <div className="relative rounded-[32px] overflow-hidden bg-[#f5f4f0]">
+
+              {/* Mini app header */}
+              <div className="relative z-10 flex items-center justify-between px-5 pt-8 pb-4">
+                <div className="flex items-center gap-1.5">
+                  <div className="w-5 h-5 rounded-md bg-primary flex items-center justify-center flex-shrink-0">
+                    <Heart className="w-2.5 h-2.5 fill-white text-white" />
+                  </div>
+                  <span className="font-serif font-bold text-sm text-black leading-none">Duo</span>
+                </div>
+                <div className="flex items-center gap-1.5 pl-2 pr-2.5 py-1 rounded-full bg-white border border-[var(--line)]">
+                  <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse flex-shrink-0" />
+                  <span className="text-[9px] font-semibold text-zinc-600 whitespace-nowrap">Partner&nbsp;online</span>
+                </div>
+              </div>
+
+              {/* Swipe card stack */}
+              <div className="relative h-[280px] flex items-center justify-center">
+                <div className="absolute" style={{ transform: "rotate(-9deg) translateY(8px) scale(0.9)" }}>
+                  <MovieCard
+                    title="Dune"
+                    year="2021"
+                    rating="8.0"
+                    genre="Sci-Fi"
+                    image="https://images.pexels.com/photos/7991231/pexels-photo-7991231.jpeg?auto=compress&cs=tinysrgb&w=400"
+                    className="opacity-70"
+                  />
+                </div>
+                <div className="absolute" style={{ transform: "rotate(6deg) translateY(4px) scale(0.95)" }}>
+                  <MovieCard
+                    title="Oppenheimer"
+                    year="2023"
+                    rating="8.9"
+                    genre="Drama"
+                    image="https://images.pexels.com/photos/4649221/pexels-photo-4649221.jpeg?auto=compress&cs=tinysrgb&w=400"
+                    className="opacity-85"
+                  />
+                </div>
+                <div className="relative z-10">
+                  <MovieCard
+                    title="La La Land"
+                    year="2016"
+                    rating="8.0"
+                    genre="Romance"
+                    image="https://images.pexels.com/photos/13352299/pexels-photo-13352299.jpeg?auto=compress&cs=tinysrgb&w=400"
+                    isMatch
+                  />
+                </div>
+              </div>
+
+              {/* Swipe controls */}
+              <div className="relative z-10 flex items-center justify-center gap-6 pb-6">
+                <button
+                  aria-label="Pass"
+                  className="w-11 h-11 rounded-full bg-white border-2 border-[var(--line)] flex items-center justify-center flex-shrink-0"
+                  style={{ boxShadow: "2px 2px 0px rgba(30,29,25,0.98)" }}
+                >
+                  <X className="w-5 h-5 text-zinc-400" strokeWidth={2.5} />
+                </button>
+                <button
+                  aria-label="Like"
+                  className="w-11 h-11 rounded-full bg-primary border-2 border-[var(--line)] flex items-center justify-center flex-shrink-0"
+                  style={{ boxShadow: "2px 2px 0px rgba(30,29,25,0.98)" }}
+                >
+                  <Heart className="w-5 h-5 fill-white text-white" strokeWidth={2.5} />
+                </button>
+              </div>
+
+            </div>
           </div>
 
-          {/* Floating Movie Card — Left */}
-          <div className="absolute -left-24 top-10 hidden lg:block animate-float-slow"
-               style={{ transform: "rotate(-6deg)" }}>
-            <MovieCard
-              title="Oppenheimer"
-              year="2023"
-              rating="8.9"
-              genre="Drama"
-              image="https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=400&h=600&fit=crop"
-            />
-          </div>
-
-          {/* Floating Movie Card — Right */}
-          <div className="absolute -right-20 top-36 hidden lg:block animate-float"
-               style={{ transform: "rotate(6deg)" }}>
-            <MovieCard
-              title="La La Land"
-              year="2016"
-              rating="8.0"
-              genre="Romance"
-              image="https://images.unsplash.com/photo-1485846234645-a62644f84728?w=400&h=600&fit=crop"
-              isMatch={true}
-            />
-          </div>
-
-          {/* Match pill */}
+          {/* Floating Match pill */}
           <div
-            className="absolute -right-6 lg:right-4 bottom-24 bg-white rounded-2xl border-2 border-[var(--line)] px-4 py-3 flex items-center gap-3 animate-float"
+            className="absolute -right-10 top-20 hidden sm:flex bg-white rounded-2xl border-2 border-[var(--line)] px-4 py-3 items-center gap-3 animate-float"
             style={{ boxShadow: "4px 4px 0px rgba(30,29,25,0.98)" }}
           >
             <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center border-2 border-[var(--line)] flex-shrink-0">
@@ -216,7 +241,7 @@ export default function Hero({
 
           {/* Stats pill */}
           <div
-            className="absolute left-0 lg:-left-8 bottom-8 bg-white rounded-2xl border-2 border-[var(--line)] px-4 py-2.5 flex items-center gap-2.5 animate-float-slow"
+            className="absolute -left-10 bottom-16 hidden sm:flex bg-white rounded-2xl border-2 border-[var(--line)] px-4 py-2.5 items-center gap-2.5 animate-float-slow"
             style={{ boxShadow: "4px 4px 0px rgba(30,29,25,0.98)" }}
           >
             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse flex-shrink-0" />
@@ -229,12 +254,12 @@ export default function Hero({
       {/* Keyframes */}
       <style jsx>{`
         @keyframes float {
-          0%, 100% { transform: translateY(0px) rotate(6deg); }
-          50%       { transform: translateY(-14px) rotate(6deg); }
+          0%, 100% { transform: translateY(0px) rotate(4deg); }
+          50%       { transform: translateY(-12px) rotate(4deg); }
         }
         @keyframes floatSlow {
-          0%, 100% { transform: translateY(0px) rotate(-6deg); }
-          50%       { transform: translateY(-20px) rotate(-6deg); }
+          0%, 100% { transform: translateY(0px) rotate(-3deg); }
+          50%       { transform: translateY(-16px) rotate(-3deg); }
         }
         .animate-float {
           animation: float 5s ease-in-out infinite;

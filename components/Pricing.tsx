@@ -85,7 +85,7 @@ export function Pricing() {
               <button
                 key={label}
                 onClick={() => setAnnual(val)}
-                className={`px-5 py-2 rounded-lg text-sm font-semibold transition-colors ${
+                className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all duration-150 active:scale-95 ${
                   annual === val
                     ? "bg-primary text-white"
                     : "text-black hover:bg-black/5"
@@ -156,7 +156,7 @@ export function Pricing() {
                 {/* CTA */}
                 <a
                   href="#download"
-                  className="block text-center py-3 rounded-xl bg-black text-white font-semibold shadow-[3px_4px_0px_rgba(30,29,25,0.98)] hover:bg-black/80 transition-colors"
+                  className="btn-neo btn-neo-sm block text-center py-3 rounded-xl bg-black text-white font-semibold"
                 >
                   {plan.cta}
                 </a>

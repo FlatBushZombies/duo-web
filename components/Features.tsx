@@ -30,21 +30,21 @@ export function Features() {
       label: "Smart Matching",
       title: "Swipe, match, never argue again.",
       body: "Our Tinder-style swiping experience means both of you decide what to watch — without endless scrolling or guilty compromises.",
-      image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&h=600&fit=crop",
+      image: "https://images.pexels.com/photos/6787872/pexels-photo-6787872.jpeg?auto=compress&cs=tinysrgb&w=800",
       tags: ["Real-time sync", "Instant alerts", "Match history"],
     },
     {
       label: "AI Recommendations",
       title: "Learns your couple's unique taste.",
       body: "The more you swipe, the smarter DateFlix gets. Our AI builds a shared taste profile for your relationship.",
-      image: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=800&h=600&fit=crop",
+      image: "https://images.pexels.com/photos/10782398/pexels-photo-10782398.jpeg?auto=compress&cs=tinysrgb&w=800",
       tags: ["Machine learning", "Genre analysis", "Mood-based picks"],
     },
     {
       label: "Cross-Platform",
       title: "Always in sync, wherever you are.",
       body: "Long distance or side by side — DateFlix keeps your movies and matches synced across every device in real time.",
-      image: "https://images.unsplash.com/photo-1512070679279-8988d32161be?w=800&h=600&fit=crop",
+      image: "https://images.pexels.com/photos/15373863/pexels-photo-15373863.jpeg?auto=compress&cs=tinysrgb&w=800",
       tags: ["iCloud Sync", "Cross-device", "Offline mode"],
     },
   ]
@@ -102,7 +102,7 @@ export function Features() {
                         year="2021"
                         rating="8.0"
                         genre="Sci-Fi"
-                        image="https://images.unsplash.com/photo-1534447677768-be436bb09401?w=400&h=600&fit=crop"
+                        image="https://images.pexels.com/photos/7991180/pexels-photo-7991180.jpeg?auto=compress&cs=tinysrgb&w=400"
                         rotation={-6}
                         scale={0.7}
                       />
@@ -113,7 +113,7 @@ export function Features() {
                         year="2014"
                         rating="8.6"
                         genre="Sci-Fi"
-                        image="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=400&h=600&fit=crop"
+                        image="https://images.pexels.com/photos/19374140/pexels-photo-19374140.jpeg?auto=compress&cs=tinysrgb&w=400"
                         rotation={8}
                         scale={0.65}
                         isMatch

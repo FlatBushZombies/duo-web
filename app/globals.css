@@ -180,13 +180,56 @@
   box-shadow: 0 24px 56px rgba(15, 23, 41, 0.08);
 }
 
-/* ── Store buttons ────────────────────────────────────────────────────────── */
-.store-btn {
-  transition: all 0.25s ease;
+/* ── Buttons — unified lift/press interaction ─────────────────────────────
+   Every clickable CTA in the site shares this mechanic: the hard offset
+   shadow grows on hover (button lifts toward the viewer) and collapses to
+   zero on press (button lands flush in its own shadow) — one deliberate,
+   tactile language instead of the scale+rotate hover used piecemeal before. */
+.btn-neo {
+  display: inline-flex;
+  align-items: center;
+  border: 2px solid var(--line);
+  box-shadow: 4px 4px 0 rgba(30, 29, 25, 0.98);
+  transition: transform 160ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 160ms cubic-bezier(0.16, 1, 0.3, 1);
 }
-.store-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 16px 40px rgba(15, 23, 41, 0.18) !important;
+.btn-neo:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 rgba(30, 29, 25, 0.98);
+}
+.btn-neo:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 rgba(30, 29, 25, 0.98);
+}
+.btn-neo:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+}
+
+/* Compact variant for nav chips / pills — smaller offset, same mechanic */
+.btn-neo-sm {
+  box-shadow: 2px 2px 0 rgba(30, 29, 25, 0.98);
+}
+.btn-neo-sm:hover {
+  transform: translate(-1.5px, -1.5px);
+  box-shadow: 3.5px 3.5px 0 rgba(30, 29, 25, 0.98);
+}
+.btn-neo-sm:active {
+  transform: translate(1.5px, 1.5px);
+  box-shadow: 0 0 0 rgba(30, 29, 25, 0.98);
+}
+
+/* Ghost variant for buttons sitting on dark/photo backgrounds (light shadow) */
+.btn-neo-ghost {
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 4px 4px 0 rgba(255, 255, 255, 0.16);
+}
+.btn-neo-ghost:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 rgba(255, 255, 255, 0.24);
+}
+.btn-neo-ghost:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 rgba(255, 255, 255, 0.16);
 }
 
 /* ── Pricing cards ──────────────────────────────────────────────────────── */
