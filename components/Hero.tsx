@@ -1,8 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { Heart, Star, X } from "lucide-react"
-import MovieCard from "./MovieCard"
+import { Heart, Star } from "lucide-react"
 
 export default function Hero({
   title = "Watch Together, Choose Together.",
@@ -142,87 +141,24 @@ export default function Hero({
         <p className="hero-btns text-xs text-zinc-400">{microTrust}</p>
       </div>
 
-      {/* ── Product visual — the app itself, not a lifestyle photo ── */}
+      {/* ── Product visual — real app screenshot ── */}
       <div className="hero-visual relative mt-16 z-10">
         <div className="relative w-[280px] mx-auto">
 
-          {/* App mockup card */}
+          {/* App screenshot */}
           <div
-            className="relative rounded-[42px] border-[3px] border-[var(--line)] bg-white p-2.5 transition-transform duration-300 hover:-translate-y-1"
+            className="relative rounded-[42px] border-[3px] border-[var(--line)] overflow-hidden bg-white transition-transform duration-300 hover:-translate-y-1"
             style={{ boxShadow: "8px 9px 0px rgba(30,29,25,0.98)" }}
           >
-            {/* Camera dot */}
-            <div className="absolute top-5 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-black/15 z-20" />
-
-            <div className="relative rounded-[32px] overflow-hidden bg-[#f5f4f0]">
-
-              {/* Mini app header */}
-              <div className="relative z-10 flex items-center justify-between px-5 pt-8 pb-4">
-                <div className="flex items-center gap-1.5">
-                  <div className="w-5 h-5 rounded-md bg-primary flex items-center justify-center flex-shrink-0">
-                    <Heart className="w-2.5 h-2.5 fill-white text-white" />
-                  </div>
-                  <span className="font-serif font-bold text-sm text-black leading-none">Duo</span>
-                </div>
-                <div className="flex items-center gap-1.5 pl-2 pr-2.5 py-1 rounded-full bg-white border border-[var(--line)]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse flex-shrink-0" />
-                  <span className="text-[9px] font-semibold text-zinc-600 whitespace-nowrap">Partner&nbsp;online</span>
-                </div>
-              </div>
-
-              {/* Swipe card stack */}
-              <div className="relative h-[280px] flex items-center justify-center">
-                <div className="absolute" style={{ transform: "rotate(-9deg) translateY(8px) scale(0.9)" }}>
-                  <MovieCard
-                    title="Dune"
-                    year="2021"
-                    rating="8.0"
-                    genre="Sci-Fi"
-                    image="https://images.pexels.com/photos/7991231/pexels-photo-7991231.jpeg?auto=compress&cs=tinysrgb&w=400"
-                    className="opacity-70"
-                  />
-                </div>
-                <div className="absolute" style={{ transform: "rotate(6deg) translateY(4px) scale(0.95)" }}>
-                  <MovieCard
-                    title="Oppenheimer"
-                    year="2023"
-                    rating="8.9"
-                    genre="Drama"
-                    image="https://images.pexels.com/photos/4649221/pexels-photo-4649221.jpeg?auto=compress&cs=tinysrgb&w=400"
-                    className="opacity-85"
-                  />
-                </div>
-                <div className="relative z-10">
-                  <MovieCard
-                    title="La La Land"
-                    year="2016"
-                    rating="8.0"
-                    genre="Romance"
-                    image="https://images.pexels.com/photos/13352299/pexels-photo-13352299.jpeg?auto=compress&cs=tinysrgb&w=400"
-                    isMatch
-                  />
-                </div>
-              </div>
-
-              {/* Swipe controls */}
-              <div className="relative z-10 flex items-center justify-center gap-6 pb-6">
-                <button
-                  aria-label="Pass"
-                  className="w-11 h-11 rounded-full bg-white border-2 border-[var(--line)] flex items-center justify-center flex-shrink-0"
-                  style={{ boxShadow: "2px 2px 0px rgba(30,29,25,0.98)" }}
-                >
-                  <X className="w-5 h-5 text-zinc-400" strokeWidth={2.5} />
-                </button>
-                <button
-                  aria-label="Like"
-                  className="w-11 h-11 rounded-full bg-primary border-2 border-[var(--line)] flex items-center justify-center flex-shrink-0"
-                  style={{ boxShadow: "2px 2px 0px rgba(30,29,25,0.98)" }}
-                >
-                  <Heart className="w-5 h-5 fill-white text-white" strokeWidth={2.5} />
-                </button>
-              </div>
-
-            </div>
+            <Image
+              src="/hero-design.jpeg"
+              alt="Duo app showing a movie card to swipe on"
+              width={522}
+              height={1080}
+              sizes="280px"
+              priority
+              className="w-full h-auto block"
+            />
           </div>
 
           {/* Floating Match pill */}
